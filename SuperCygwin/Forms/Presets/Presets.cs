@@ -37,7 +37,10 @@ namespace SuperCygwin
                 data = JsonConvert.DeserializeObject<List<Preset>>(presetFile);
 
                 foreach (Preset p in (List<Preset>)data)
-                    Presets.Add(p);
+                    if (p.Args.StartsWith("/usr/bin/ssh"))
+                        Presets.Add(new SSHPreset(p));
+                    else
+                        Presets.Add(p);
 
                 foreach (Preset p in Presets)
                     AddProc(p);
@@ -81,6 +84,8 @@ namespace SuperCygwin
         {
             if (!Presets.Contains(p))
             {
+                //if(p.Args.StartsWith("/usr/bin/ssh "))
+                //    p
                 Presets.Add(p);
                 AddProc(p);
             }
@@ -190,6 +195,16 @@ namespace SuperCygwin
                     p.Type = PresetType.Mintty;
                     p.Path = @"C:\cygwin\bin\mintty.exe";
                     p.Args = string.Format("/usr/bin/ssh {0} -P{1} {2}", tgt, port, forwards);
+                    PresetsForm.MainForm.AddPreset(p);
+                }
+                else if (proto == "telnet")
+                {
+                    string key = "";
+                    key = (string)entry.GetValue("PublicKeyFile", "");
+                    //Possibly give option to install cygwin ssh key? 
+                    p.Type = PresetType.Mintty;
+                    p.Path = @"C:\cygwin\bin\mintty.exe";
+                    p.Args = string.Format("/usr/bin/telnet {0} {1}", host, port);
                     PresetsForm.MainForm.AddPreset(p);
                 }
                 else

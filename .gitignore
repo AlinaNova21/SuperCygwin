@@ -111,3 +111,5 @@ presets.json*
 *.manifest
 Sessions.XML
 log.txt
+id_rsa
+*.ppk

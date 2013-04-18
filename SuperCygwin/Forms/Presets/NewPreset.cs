@@ -42,5 +42,10 @@ namespace SuperCygwin.Forms.Presets
             PresetsForm.MainForm.AddPreset(preset);
             MessageBox.Show("Preset Saved");
         }
+
+        private void NewPreset_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
