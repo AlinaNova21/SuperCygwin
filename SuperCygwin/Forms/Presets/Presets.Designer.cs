@@ -72,12 +72,12 @@
             this.editToolStripMenuItem,
             this.deleteToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 148);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(128, 126);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(124, 6);
             // 
             // toolStrip1
             // 
@@ -94,20 +94,20 @@
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(124, 6);
             // 
             // nameToolStripMenuItem
             // 
             this.nameToolStripMenuItem.Enabled = false;
             this.nameToolStripMenuItem.Name = "nameToolStripMenuItem";
-            this.nameToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.nameToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.nameToolStripMenuItem.Text = "Name";
             // 
             // installKeyToolStripMenuItem
             // 
             this.installKeyToolStripMenuItem.Image = global::SuperCygwin.Properties.Resources.Key_Right;
             this.installKeyToolStripMenuItem.Name = "installKeyToolStripMenuItem";
-            this.installKeyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.installKeyToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.installKeyToolStripMenuItem.Text = "Install Key";
             this.installKeyToolStripMenuItem.Click += new System.EventHandler(this.installKeyToolStripMenuItem_Click);
             // 
@@ -115,7 +115,7 @@
             // 
             this.openToolStripMenuItem.Image = global::SuperCygwin.Properties.Resources.FolderOpen_48x48_72;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -123,7 +123,7 @@
             // 
             this.editToolStripMenuItem.Image = global::SuperCygwin.Properties.Resources._1462_Pencil_48x48;
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
@@ -131,48 +131,47 @@
             // 
             this.deleteToolStripMenuItem.Image = global::SuperCygwin.Properties.Resources.delete;
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // toolStripDropDownButton1
             // 
             this.toolStripDropDownButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.usingCygwinSSHToolStripMenuItem,
             this.toolStripMenuItem2,
             this.cygwinSSHToolStripMenuItem,
             this.puTTYToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.Image = global::SuperCygwin.Properties.Resources.replace_folder;
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(153, 22);
-            this.toolStripDropDownButton1.Text = "Import from SuperPuTTY";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(72, 22);
+            this.toolStripDropDownButton1.Text = "Import";
             // 
             // usingCygwinSSHToolStripMenuItem
             // 
             this.usingCygwinSSHToolStripMenuItem.Enabled = false;
             this.usingCygwinSSHToolStripMenuItem.Name = "usingCygwinSSHToolStripMenuItem";
-            this.usingCygwinSSHToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.usingCygwinSSHToolStripMenuItem.Text = "Using:";
+            this.usingCygwinSSHToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.usingCygwinSSHToolStripMenuItem.Text = "From:";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(135, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
             // 
             // cygwinSSHToolStripMenuItem
             // 
             this.cygwinSSHToolStripMenuItem.Name = "cygwinSSHToolStripMenuItem";
-            this.cygwinSSHToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.cygwinSSHToolStripMenuItem.Text = "Cygwin SSH";
+            this.cygwinSSHToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.cygwinSSHToolStripMenuItem.Text = "SuperPuTTY";
             this.cygwinSSHToolStripMenuItem.Click += new System.EventHandler(this.cygwinSSHToolStripMenuItem_Click);
             // 
             // puTTYToolStripMenuItem
             // 
             this.puTTYToolStripMenuItem.Name = "puTTYToolStripMenuItem";
-            this.puTTYToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.puTTYToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.puTTYToolStripMenuItem.Text = "PuTTY";
             this.puTTYToolStripMenuItem.Click += new System.EventHandler(this.puTTYToolStripMenuItem_Click);
             // 

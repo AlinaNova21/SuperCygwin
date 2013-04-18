@@ -108,7 +108,7 @@ namespace SuperCygwin
             Native.SetWindowPos(Wnd, Native.HWND_TOPMOST, 0, 0, panel1.Width, panel1.Height, (SWP.FRAMECHANGED + SWP.SHOWWINDOW));
             this.DataBindings.Add("Text", wnd, "MainWindowTitle");
             File.AppendAllText("log.txt", string.Format("INIT: {0} {1}x{2} {3}x{4}\r\n", wnd.MainWindowTitle, 0, 0, Width, Height));
-            Native.SetWindowPos(process.MainWindowHandle, IntPtr.Zero, 0, 0, Width, Height, (SWP.FRAMECHANGED + SWP.NOZORDER + SWP.NOACTIVATE));
+            Native.SetWindowPos(process.MainWindowHandle, IntPtr.Zero, 0, 0, panel1.Width, panel1.Height, (SWP.FRAMECHANGED + SWP.NOZORDER + SWP.NOACTIVATE));
         }
 
         public void SetFocus()

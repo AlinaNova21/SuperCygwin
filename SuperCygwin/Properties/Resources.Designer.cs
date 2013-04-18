@@ -101,5 +101,12 @@ namespace SuperCygwin.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap replace_folder {
+            get {
+                object obj = ResourceManager.GetObject("replace_folder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

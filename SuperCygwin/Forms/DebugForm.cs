@@ -19,5 +19,10 @@ namespace SuperCygwin.Forms
         {
             InitializeComponent();
         }
+
+        private void DebugForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -152,15 +152,55 @@ namespace SuperCygwin
 
         private void cygwinSSHToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ImportFromPuTTY("Cygwin");
+            ImportFromSuperPuTTY("Cygwin");
         }
 
         private void puTTYToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ImportFromPuTTY("Putty");
+            ImportFromPuTTY();
         }
 
-        void ImportFromPuTTY(string prefer)
+        void ImportFromPuTTY()
+        {
+            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(@"Software\SimonTatham\PuTTY\Sessions\");
+            
+            foreach (string session in registryKey.GetSubKeyNames())
+            {
+                Preset p = new Preset();
+                RegistryKey entry = registryKey.OpenSubKey(session);
+                p.Name = session + " - Putty Import";
+                string proto = (string)entry.GetValue("Protocol");
+                string host = (string)entry.GetValue("HostName");
+                int port = (int)entry.GetValue("PortNumber");
+                string user = (string)entry.GetValue("UserName");
+                string forwards = (string)entry.GetValue("PortForwardings");
+                string ps = session;
+                string tgt = (user != "" ? user + "@" : "") + host;
+
+                //Reformat forwards for cygwin SSH
+                forwards=forwards.Replace('=', ':').Replace(',',' ').Replace("L","-L").Replace("R","-R");
+                if (!Directory.Exists("keys"))
+                    Directory.CreateDirectory("keys");
+
+                if (proto == "ssh")
+                {
+                    string key = "";
+                    key = (string)entry.GetValue("PublicKeyFile", "");
+                    //Possibly give option to install cygwin ssh key? 
+                    p.Type = PresetType.Mintty;
+                    p.Path = @"C:\cygwin\bin\mintty.exe";
+                    p.Args = string.Format("/usr/bin/ssh {0} -P{1} {2}", tgt, port, forwards);
+                    PresetsForm.MainForm.AddPreset(p);
+                }
+                else
+                {
+                    MessageBox.Show(string.Format("Sorry, but the session {0} uses protocol {1} which is currently not supported.",session,proto));
+                }
+                //NewPreset frm = new NewPreset(p);
+            }
+        }
+
+        void ImportFromSuperPuTTY(string prefer)
         {
 
             if (prefer == "")
