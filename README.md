@@ -7,9 +7,9 @@ TODO: Convince someone to write a better readme! This is NOT my forte!
 
 Downloads:
 ==========
-Stable        http://ags131.co/supercygwin/SuperCygwin-stable.zip
+Latets Stable http://ags131.co/supercygwin/SuperCygwin-latest.zip
 
-Snapshot      http://ags131.co/supercygwin/SuperCygwin-latest.zip
+Dev Snapshot  http://ags131.co/supercygwin/SuperCygwin-snapshot.zip
 
 Archive       http://ags131.co/supercygwin/
 
