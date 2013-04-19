@@ -86,6 +86,9 @@ namespace SuperCygwin
             {
                 //if(p.Args.StartsWith("/usr/bin/ssh "))
                 //    p
+
+                if (p.Args.StartsWith("/usr/bin/ssh"))
+                    p=new SSHPreset(p);
                 Presets.Add(p);
                 AddProc(p);
             }

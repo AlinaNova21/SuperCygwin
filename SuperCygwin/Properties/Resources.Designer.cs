@@ -60,6 +60,13 @@ namespace SuperCygwin.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap _112_RightArrowLong_Green_48x48_72 {
+            get {
+                object obj = ResourceManager.GetObject("112_RightArrowLong_Green_48x48_72", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap _1462_Pencil_256x256 {
             get {
                 object obj = ResourceManager.GetObject("1462_Pencil_256x256", resourceCulture);

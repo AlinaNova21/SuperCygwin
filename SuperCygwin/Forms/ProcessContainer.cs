@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
+using System.Net;
 
 namespace SuperCygwin
 {
@@ -24,6 +25,24 @@ namespace SuperCygwin
 
         static void em_NewProcess(object sender, EventManager.NewProcessEventArgs e)
         {
+            if(e.Process.Arguments.StartsWith("/usr/bin/"))
+                if (!File.Exists(e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/",@"C:\cygwin\bin\"))) 
+                {
+                    if (!File.Exists("cygwin_setup.exe"))
+                    {
+                        WebClient wc = new WebClient();
+                        try{
+                            wc.DownloadFile("http://www.cygwin.com/setup.exe", "cygwin_setup.exe");
+                        }catch(Exception ex){
+                            MessageBox.Show("Could not download cygwin setup. Please connect to the internet or install " + e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/", ""));
+                            return;
+                        }
+                    }
+                    MessageBox.Show("Please install " + e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/", "") + " before attempting to open this preset.");
+                    ProcessStartInfo psi = new ProcessStartInfo("cygwin_setup.exe");
+                    Create(dp,psi);
+                    return;
+                }
             Create(dp, e.Process);
         }
 
@@ -94,6 +113,8 @@ namespace SuperCygwin
 
         private void Init(object Sender, EventArgs e)
         {
+            menuStrip1.Visible = Program.dev;
+
             Resize += new EventHandler(ResizeEmbedded);
             //ResizeEnd += new EventHandler(ResizeEmbedded);
             Process wnd = process;

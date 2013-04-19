@@ -90,9 +90,10 @@ namespace SuperCygwin.Forms.Presets
                 Hostname = "";
                 Port = 22;
                 value = value.Replace("/usr/bin/ssh ", "");
-                string[] val=Regex.Replace(value,"(-[a-zA-Z]) ",@"\1").Split(' ');
+                string[] val=Regex.Replace(value,"(-[a-zA-Z]) ",@"\1").Split(new string[]{" "},StringSplitOptions.RemoveEmptyEntries);
                 foreach (string v in val)
                 {
+                    if (v.Length < 2) continue;
                     switch (v[1])
                     {
                         case 'P':

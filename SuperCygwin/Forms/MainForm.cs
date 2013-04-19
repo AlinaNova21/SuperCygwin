@@ -35,7 +35,7 @@ namespace SuperCygwin
 
 
             toolStrip1.SendToBack();
-
+            toolStrip1.Visible = Program.dev;
             ni.DoubleClick += new EventHandler(ni_DoubleClick);
 
             FormClosing += new FormClosingEventHandler(Form1_FormClosing);
@@ -46,8 +46,11 @@ namespace SuperCygwin
             PresetsForm p = new PresetsForm();
             p.Show(dp, DockState.DockRight);
 
-            DebugForm dbg = new DebugForm();
-            dbg.Show(dp, DockState.Document);
+            if (Program.dev)
+            {
+                DebugForm dbg = new DebugForm();
+                dbg.Show(dp, DockState.Document);
+            }
 
             em.NewForm += new EventManager.NewFormEventHandler(em_NewForm);
         }

@@ -146,6 +146,9 @@
   <ItemGroup>
     <None Include="Resources\replace_folder.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\112_RightArrowLong_Green_48x48_72.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetDir)* A:\SuperCygwin</PostBuildEvent>
