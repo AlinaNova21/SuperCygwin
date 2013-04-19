@@ -40,7 +40,7 @@ namespace SuperCygwin.Forms.Presets
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
             PresetsForm.MainForm.AddPreset(preset);
-            MessageBox.Show("Preset Saved");
+            //MessageBox.Show("Preset Saved");
         }
 
         private void NewPreset_Load(object sender, EventArgs e)

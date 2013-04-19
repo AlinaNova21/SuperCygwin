@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json.Net35">
       <HintPath>..\..\..\..\..\Program Files (x86)\HerbManager\7.0\HerbManagerRelease\Newtonsoft.Json.Net35.dll</HintPath>
@@ -151,7 +154,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)* A:\SuperCygwin</PostBuildEvent>
+    <PostBuildEvent>upload.bat
+copy $(TargetDir)* A:\SuperCygwin</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

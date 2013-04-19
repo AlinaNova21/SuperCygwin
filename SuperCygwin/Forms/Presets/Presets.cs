@@ -44,6 +44,8 @@ namespace SuperCygwin
 
                 foreach (Preset p in Presets)
                     AddProc(p);
+
+                
             }
             em = EventManager.MainInstance;
             try
@@ -88,9 +90,15 @@ namespace SuperCygwin
                 //    p
 
                 if (p.Args.StartsWith("/usr/bin/ssh"))
-                    p=new SSHPreset(p);
+                    p = new SSHPreset(p);
                 Presets.Add(p);
                 AddProc(p);
+            }
+            else
+            {
+                tree.Nodes["preset"].Nodes.Clear();
+                foreach (Preset pp in Presets)
+                    AddProc(pp);
             }
             SavePresets();
         }
@@ -114,6 +122,7 @@ namespace SuperCygwin
             n.Text = p.Name;
             n.Tag = p;
             tree.Nodes["preset"].Nodes.Add(n);
+            tree.Sort();
         }
 
         private void tree_AfterSelect(object sender, TreeViewEventArgs e)
@@ -125,7 +134,11 @@ namespace SuperCygwin
         {
             if (tree.SelectedNode != null && tree.SelectedNode.Tag is Preset)
             {
-                em.RaiseNewProcess(((Preset)tree.SelectedNode.Tag).PSI);
+                //Preset p=(Preset)tree.SelectedNode.Tag;
+                object tag = tree.SelectedNode.Tag;
+                string Path = (string)tag.GetType().GetProperty("Path").GetValue(tag, null);
+                string Args = (string)tag.GetType().GetProperty("Args").GetValue(tag, null);
+                em.RaiseNewProcess(new ProcessStartInfo(Path,Args));
             }
         }
 

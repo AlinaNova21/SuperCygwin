@@ -14,6 +14,11 @@ namespace SuperCygwin
         [STAThread]
         static void Main(string[] Args)
         {
+            if (Args.Contains("-version"))
+            {
+                Console.Write(Application.ProductVersion);
+                return;
+            }
             if (Args.Contains("-dev"))
                 dev = true;
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);

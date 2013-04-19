@@ -6,6 +6,7 @@ using System.ComponentModel;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace SuperCygwin.Forms.Presets
 {
@@ -78,10 +79,10 @@ namespace SuperCygwin.Forms.Presets
         {
             get
             {
-                return string.Format("/usr/bin/ssh {0} -P {1} {2}",
+                return string.Format("/usr/bin/ssh {0} -P{1} {2}",
                     (Username != ""?Username+"@":"")+Hostname,
                     Port,
-                    PrivateKey==""?"":"-i \""+PrivateKey+"\"",
+                    "",//PrivateKey==""?"":"-i \""+PrivateKey+"\"",
                     Forwards);
             }
             set
@@ -128,6 +129,18 @@ namespace SuperCygwin.Forms.Presets
         [EditorAttribute(typeof(System.Windows.Forms.Design.FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public string PrivateKey { get; set; }
         public string Forwards { get; set; }
+
+        [JsonIgnore]
+        [Browsable(false)]
+        public new ProcessStartInfo PSI
+        {
+            get
+            {
+                return new ProcessStartInfo(Path, Args);
+            }
+            set { }
+        }
+
         public SSHPreset()
             : base()
         {

@@ -113,3 +113,7 @@ Sessions.XML
 log.txt
 id_rsa
 *.ppk
+upload.bat
+setup.log.full
+*.zip
+Release/SuperCygwin/*
