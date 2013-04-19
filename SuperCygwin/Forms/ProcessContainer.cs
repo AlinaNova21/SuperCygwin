@@ -25,8 +25,10 @@ namespace SuperCygwin
 
         static void em_NewProcess(object sender, EventManager.NewProcessEventArgs e)
         {
+            //MessageBox.Show(e.Process.Arguments);
             if(e.Process.Arguments.StartsWith("/usr/bin/"))
-                if (!File.Exists(e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/",@"C:\cygwin\bin\"))) 
+                if (!File.Exists(e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/", @"C:\cygwin\bin\")) &&
+                    !File.Exists(e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/", @"C:\cygwin\bin\") + ".exe")) 
                 {
                     if (!File.Exists("cygwin_setup.exe"))
                     {
