@@ -7,9 +7,8 @@ TODO: Convince someone to write a better readme! This is NOT my forte!
 
 Downloads:
 ==========
-latest stable	https://s3.amazonaws.com/ags131/SuperCygwin/SuperCygwin-latest.zipzip
+Stable        http://ags131.co/supercygwin/SuperCygwin-stable.zip
+Snapshot      http://ags131.co/supercygwin/SuperCygwin-latest.zip
+Archive       http://ags131.co/supercygwin/
 
-latest snapshot https://s3.amazonaws.com/ags131/SuperCygwin/SuperCygwin-snapshot.zip
-(Always latest binaries)
 
-1.0.4857     https://s3.amazonaws.com/ags131/SuperCygwin/SuperCygwin-1.0.4857.
