@@ -75,6 +75,7 @@
             // 
             this.prog.Name = "prog";
             this.prog.Size = new System.Drawing.Size(100, 18);
+            this.prog.Visible = false;
             // 
             // MainForm
             // 

@@ -92,18 +92,11 @@ namespace SuperCygwin
             IDockContent[] docs = dp.Documents.ToArray();
             foreach (IDockContent doc in docs)
                 ((DockContent)doc).Close();
-                //((ProcessContainer)doc).Close();
         }
         
         private void Form1_Load(object sender, EventArgs e)
         {
-            /** /
-            ProcessContainer.Create(dp, "notepad.exe");
-            ProcessContainer.Create(dp, @"C:\cygwin\bin\mintty.exe");
-            ProcessContainer.Create(dp, @"C:\cygwin\bin\mintty.exe");
-            ProcessContainer.Create(dp, @"C:\cygwin\bin\mintty.exe");
-            ProcessContainer.Create(dp, @"C:\cygwin\bin\mintty.exe");
-            /**/
+            
         }
 
        
