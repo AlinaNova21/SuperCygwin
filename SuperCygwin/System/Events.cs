@@ -65,5 +65,10 @@ namespace SuperCygwin
             NewForm(this, new NewFormEventArgs(form, dockState));
         }
         /* END New Process Event */
+
+        /* BEGIN Progress Event */
+
+        /* END Progress Event */
+        
     }
 }

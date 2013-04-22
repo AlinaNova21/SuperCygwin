@@ -26,26 +26,31 @@ namespace SuperCygwin
         static void em_NewProcess(object sender, EventManager.NewProcessEventArgs e)
         {
             //MessageBox.Show(e.Process.Arguments);
-            if(e.Process.Arguments.StartsWith("/usr/bin/"))
-                if (!File.Exists(e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/", @"C:\cygwin\bin\")) &&
-                    !File.Exists(e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/", @"C:\cygwin\bin\") + ".exe")) 
-                {
-                    if (!File.Exists("cygwin_setup.exe"))
+            if(File.Exists(e.Process.FileName))
+            {
+                if(e.Process.Arguments.StartsWith("/usr/bin/"))
+                    if (!File.Exists(e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/", Program.Config.CygwinPath+@"bin\")) &&
+                        !File.Exists(e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/", Program.Config.CygwinPath + @"bin\") + ".exe")) 
                     {
-                        WebClient wc = new WebClient();
-                        try{
-                            wc.DownloadFile("http://www.cygwin.com/setup.exe", "cygwin_setup.exe");
-                        }catch(Exception ex){
-                            MessageBox.Show("Could not download cygwin setup. Please connect to the internet or install " + e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/", ""));
-                            return;
+                        if (!File.Exists("cygwin_setup.exe"))
+                        {
+                            WebClient wc = new WebClient();
+                            try{
+                                wc.DownloadFile("http://www.cygwin.com/setup.exe", "cygwin_setup.exe");
+                            }catch(Exception ex){
+                                MessageBox.Show("Could not download cygwin setup. Please connect to the internet or install " + e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/", ""));
+                                return;
+                            }
                         }
+                        MessageBox.Show("Please install " + e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/", "") + " before attempting to open this preset.");
+                        ProcessStartInfo psi = new ProcessStartInfo("cygwin_setup.exe");
+                        Create(dp,psi);
+                        return;
                     }
-                    MessageBox.Show("Please install " + e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/", "") + " before attempting to open this preset.");
-                    ProcessStartInfo psi = new ProcessStartInfo("cygwin_setup.exe");
-                    Create(dp,psi);
-                    return;
-                }
-            Create(dp, e.Process);
+                Create(dp, e.Process);
+            }else{
+                MessageBox.Show("Error: File Not Found");
+            }
         }
 
         public static ProcessContainer Create(DockPanel dp, string Path, string args = "")
@@ -125,9 +130,10 @@ namespace SuperCygwin
             //val += 0x11000000L;
             IntPtr ptr = new IntPtr(val);
             IntPtr Wnd = wnd.MainWindowHandle;
+            //MessageBox.Show(Native.GetParent(Wnd).ToString());
             Native.SetParent(Wnd, panel1.Handle);
-            Native.ShowWindow(Wnd, WindowShowStyle.ShowNormal);
             Native.SetWindowLongPtr(Wnd, (int)WindowLongFlags.GWL_STYLE, 0);
+            Native.ShowWindow(Wnd, WindowShowStyle.ShowNormal);
             Native.SetWindowPos(Wnd, Native.HWND_TOPMOST, 0, 0, panel1.Width, panel1.Height, (SWP.FRAMECHANGED + SWP.SHOWWINDOW));
             this.DataBindings.Add("Text", wnd, "MainWindowTitle");
             File.AppendAllText("log.txt", string.Format("INIT: {0} {1}x{2} {3}x{4}\r\n", wnd.MainWindowTitle, 0, 0, Width, Height));

@@ -35,12 +35,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Stable|x86'">
+    <OutputPath>bin\x86\Stable\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json.Net35">
-      <HintPath>..\..\..\..\..\Program Files (x86)\HerbManager\7.0\HerbManagerRelease\Newtonsoft.Json.Net35.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
@@ -57,6 +64,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\Config.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Config.Designer.cs">
+      <DependentUpon>Config.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\DebugForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +89,7 @@
     <Compile Include="Forms\Presets\NewPreset.Designer.cs">
       <DependentUpon>NewPreset.cs</DependentUpon>
     </Compile>
+    <Compile Include="System\Config.cs" />
     <Compile Include="System\Events.cs" />
     <Compile Include="System\Native.cs" />
     <Compile Include="Forms\Presets\Presets.cs">
@@ -92,6 +106,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\Config.resx">
+      <DependentUpon>Config.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\DebugForm.resx">
       <DependentUpon>DebugForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -152,9 +169,22 @@
   <ItemGroup>
     <None Include="Resources\112_RightArrowLong_Green_48x48_72.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Newtonsoft.Json\Newtonsoft.Json.csproj">
+      <Project>{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}</Project>
+      <Name>Newtonsoft.Json</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\327_Options_48x48_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\base_cog_32.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>upload.bat
+    <PostBuildEvent>start c:\cygwin\bin\mintty.exe /usr/bin/pushsc
+
 copy $(TargetDir)* A:\SuperCygwin</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

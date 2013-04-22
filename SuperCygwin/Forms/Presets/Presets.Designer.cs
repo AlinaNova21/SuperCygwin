@@ -32,20 +32,21 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PresetsForm));
             this.tree = new System.Windows.Forms.TreeView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.nameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.installKeyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.usingCygwinSSHToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.cygwinSSHToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.puTTYToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -74,34 +75,17 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(128, 126);
             // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(124, 6);
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripDropDownButton1,
-            this.toolStripButton1});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(395, 25);
-            this.toolStrip1.TabIndex = 1;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(124, 6);
-            // 
             // nameToolStripMenuItem
             // 
             this.nameToolStripMenuItem.Enabled = false;
             this.nameToolStripMenuItem.Name = "nameToolStripMenuItem";
             this.nameToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.nameToolStripMenuItem.Text = "Name";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(124, 6);
             // 
             // installKeyToolStripMenuItem
             // 
@@ -110,6 +94,11 @@
             this.installKeyToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.installKeyToolStripMenuItem.Text = "Install Key";
             this.installKeyToolStripMenuItem.Click += new System.EventHandler(this.installKeyToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(124, 6);
             // 
             // openToolStripMenuItem
             // 
@@ -135,6 +124,19 @@
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripDropDownButton1,
+            this.toolStripButton1,
+            this.toolStripButton2});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(395, 25);
+            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
             // toolStripDropDownButton1
             // 
             this.toolStripDropDownButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -153,25 +155,25 @@
             // 
             this.usingCygwinSSHToolStripMenuItem.Enabled = false;
             this.usingCygwinSSHToolStripMenuItem.Name = "usingCygwinSSHToolStripMenuItem";
-            this.usingCygwinSSHToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.usingCygwinSSHToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.usingCygwinSSHToolStripMenuItem.Text = "From:";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(136, 6);
             // 
             // cygwinSSHToolStripMenuItem
             // 
             this.cygwinSSHToolStripMenuItem.Name = "cygwinSSHToolStripMenuItem";
-            this.cygwinSSHToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.cygwinSSHToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.cygwinSSHToolStripMenuItem.Text = "SuperPuTTY";
             this.cygwinSSHToolStripMenuItem.Click += new System.EventHandler(this.cygwinSSHToolStripMenuItem_Click);
             // 
             // puTTYToolStripMenuItem
             // 
             this.puTTYToolStripMenuItem.Name = "puTTYToolStripMenuItem";
-            this.puTTYToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.puTTYToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.puTTYToolStripMenuItem.Text = "PuTTY";
             this.puTTYToolStripMenuItem.Click += new System.EventHandler(this.puTTYToolStripMenuItem_Click);
             // 
@@ -182,8 +184,19 @@
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Text = "Add Preset";
             this.toolStripButton1.Click += new System.EventHandler(this.newToolStripButton_Click);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton2.Image = global::SuperCygwin.Properties.Resources.base_cog_32;
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton2.Text = "Configuration";
+            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
             // PresetsForm
             // 
@@ -222,5 +235,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripMenuItem installKeyToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
     }
 }

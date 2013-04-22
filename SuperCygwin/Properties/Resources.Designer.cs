@@ -81,6 +81,20 @@ namespace SuperCygwin.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap _327_Options_48x48_72 {
+            get {
+                object obj = ResourceManager.GetObject("327_Options_48x48_72", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap base_cog_32 {
+            get {
+                object obj = ResourceManager.GetObject("base_cog_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Cygwin {
             get {
                 object obj = ResourceManager.GetObject("Cygwin", resourceCulture);

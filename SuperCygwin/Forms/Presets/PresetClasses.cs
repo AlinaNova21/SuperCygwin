@@ -12,25 +12,27 @@ namespace SuperCygwin.Forms.Presets
 {
     public class Preset
     {
-
-        public string Name
-        {
-            get;
-            set;
-        }
+        protected string _args;
+        protected string _path;
+        protected string _name;
         [Browsable(false)]
         public PresetType Type;
-
+        
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
         [EditorAttribute(typeof(System.Windows.Forms.Design.FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public string Path
         {
-            get;
-            set;
+            get { return _path; }
+            set { _path = value; }
         }
         public string Args
         {
-            get;
-            set;
+            get { return _args; }
+            set { _args = value; }
         }
 
         [JsonIgnore]
@@ -43,11 +45,12 @@ namespace SuperCygwin.Forms.Presets
             }
             set { }
         }
+        
         public Preset()
         {
             Name = "Change Me";
             Type = PresetType.Normal;
-            Path = @"C:\cygwin\bin\mintty.exe";
+            Path = Program.Config.MinTTYPath;
             Args = "-";
         }
         public Preset(string name, string path, string args)
@@ -79,18 +82,21 @@ namespace SuperCygwin.Forms.Presets
         {
             get
             {
-                return string.Format("/usr/bin/ssh {0} -P{1} {2}",
-                    (Username != ""?Username+"@":"")+Hostname,
+                _args = string.Format("{0} {1} -P{2} {3}",
+                    Program.Config.SSHPath,
+                    (Username != "" ? Username + "@" : "root@") + Hostname,
                     Port,
                     "",//PrivateKey==""?"":"-i \""+PrivateKey+"\"",
                     Forwards);
+                return _args;
             }
             set
             {
+                _args = value;
                 Forwards = "";
                 Hostname = "";
                 Port = 22;
-                value = value.Replace("/usr/bin/ssh ", "");
+                value = value.Replace(Program.Config.SSHPath, "");
                 string[] val=Regex.Replace(value,"(-[a-zA-Z]) ",@"\1").Split(new string[]{" "},StringSplitOptions.RemoveEmptyEntries);
                 foreach (string v in val)
                 {
@@ -111,12 +117,16 @@ namespace SuperCygwin.Forms.Presets
                         default:
                             if(Hostname=="")
                             {
-                                if(v.Contains('@'))
+                                if (v.Contains('@'))
                                 {
-                                    Username=v.Split('@')[0];
-                                    Hostname=v.Split('@')[1];
-                                }else
-                                    Hostname=v;
+                                    Username = v.Split('@')[0];
+                                    Hostname = v.Split('@')[1];
+                                }
+                                else
+                                {
+                                    Username = "root";
+                                    Hostname = v;
+                                }
                             }
                             break;
                     }
@@ -144,7 +154,7 @@ namespace SuperCygwin.Forms.Presets
         public SSHPreset()
             : base()
         {
-            Path = @"C:\cygwin\bin\mintty.exe";
+            Path = Program.Config.MinTTYPath;
         }
         public SSHPreset(Preset p)
             : base()

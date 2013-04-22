@@ -33,9 +33,9 @@ namespace SuperCygwin
 
             dp.ActiveDocumentChanged += new EventHandler(dp_ActiveDocumentChanged);
 
-
-            toolStrip1.SendToBack();
-            toolStrip1.Visible = Program.dev;
+            statusStrip1.SendToBack();
+            //toolStrip1.SendToBack();
+            //toolStrip1.Visible = Program.dev;
             ni.DoubleClick += new EventHandler(ni_DoubleClick);
 
             FormClosing += new FormClosingEventHandler(Form1_FormClosing);
@@ -53,6 +53,8 @@ namespace SuperCygwin
             }
 
             em.NewForm += new EventManager.NewFormEventHandler(em_NewForm);
+
+            version.Text = string.Format("Version: {0}", Application.ProductVersion);
         }
 
         void em_NewForm(object sender, EventManager.NewFormEventArgs e)
@@ -90,27 +92,14 @@ namespace SuperCygwin
             IDockContent[] docs = dp.Documents.ToArray();
             foreach (IDockContent doc in docs)
                 ((DockContent)doc).Close();
-                //((ProcessContainer)doc).Close();
         }
         
         private void Form1_Load(object sender, EventArgs e)
         {
-            /** /
-            ProcessContainer.Create(dp, "notepad.exe");
-            ProcessContainer.Create(dp, @"C:\cygwin\bin\mintty.exe");
-            ProcessContainer.Create(dp, @"C:\cygwin\bin\mintty.exe");
-            ProcessContainer.Create(dp, @"C:\cygwin\bin\mintty.exe");
-            ProcessContainer.Create(dp, @"C:\cygwin\bin\mintty.exe");
-            /**/
+            
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-            //ProcessContainer.Create(dp, @"C:\cygwin\bin\mintty.exe ",toolStripTextBox1.Text);
-            ProcessStartInfo psi = new ProcessStartInfo(@"C:\cygwin\bin\mintty.exe", toolStripTextBox1.Text);
-            em.RaiseNewProcess(this,psi);
-        }
-
+       
         private DockPanelSkin CreateVisualStudio2005()
         {
             DockPanelSkin skin = new DockPanelSkin();

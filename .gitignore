@@ -1,5 +1,5 @@
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
-#[Bb]in/
+[Bb]in/
 [Oo]bj/
 
 # mstest test results
@@ -108,6 +108,7 @@ Backup*/
 UpgradeLog*.XML
 presets.json*
 *.exe
+*.dll
 *.manifest
 Sessions.XML
 log.txt
@@ -117,3 +118,4 @@ upload.bat
 setup.log.full
 *.zip
 Release/SuperCygwin/*
+upload.bat.bak

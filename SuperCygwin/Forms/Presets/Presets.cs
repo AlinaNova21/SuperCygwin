@@ -12,6 +12,7 @@ using SuperCygwin.Forms.Presets;
 using System.Xml.Linq;
 using System.IO;
 using Microsoft.Win32;
+using SuperCygwin.Forms;
 
 namespace SuperCygwin
 {
@@ -209,8 +210,8 @@ namespace SuperCygwin
                     key = (string)entry.GetValue("PublicKeyFile", "");
                     //Possibly give option to install cygwin ssh key? 
                     p.Type = PresetType.Mintty;
-                    p.Path = @"C:\cygwin\bin\mintty.exe";
-                    p.Args = string.Format("/usr/bin/ssh {0} -P{1} {2}", tgt, port, forwards);
+                    p.Path =Program.Config.MinTTYPath;
+                    p.Args = string.Format("{0} {1} -P{2} {3}" ,Program.Config.SSHPath, tgt, port, forwards);
                     PresetsForm.MainForm.AddPreset(p);
                 }
                 else if (proto == "telnet")
@@ -219,8 +220,8 @@ namespace SuperCygwin
                     key = (string)entry.GetValue("PublicKeyFile", "");
                     //Possibly give option to install cygwin ssh key? 
                     p.Type = PresetType.Mintty;
-                    p.Path = @"C:\cygwin\bin\mintty.exe";
-                    p.Args = string.Format("/usr/bin/telnet {0} {1}", host, port);
+                    p.Path = Program.Config.MinTTYPath;
+                    p.Args = string.Format("{0} {1} {2}", Program.Config.TelnetPath, host, port);
                     PresetsForm.MainForm.AddPreset(p);
                 }
                 else
@@ -270,8 +271,8 @@ namespace SuperCygwin
                     else
                     {
                         p.Type = PresetType.Mintty;
-                        p.Path = @"C:\cygwin\bin\mintty.exe";
-                        p.Args = string.Format("/usr/bin/ssh {0} -P{1}", tgt, port);
+                        p.Path = Program.Config.MinTTYPath;
+                        p.Args = string.Format("{0} {1} -P{2}", Program.Config.SSHPath, tgt, port);
                     }
                 }
                 //NewPreset frm = new NewPreset(p);
@@ -286,7 +287,7 @@ namespace SuperCygwin
             {
                 if (DialogResult.Yes == MessageBox.Show("Install Cygwin public key onto remote server?", "Install Key", MessageBoxButtons.YesNo))
                 {
-                    string HOME = Directory.GetDirectories(@"C:\cygwin\home\")[0];
+                    string HOME = string.Format(Program.Config.CygwinPath+@"home\{0}\",Environment.UserName);//Directory.GetDirectories(@"C:\cygwin\home\")[0];
                     string key = File.ReadAllText(Path.Combine(HOME, ".ssh/id_rsa.pub"));
                     ProcessStartInfo psi = p.PSI;
                     psi.Arguments += string.Format(" '( echo \"{0}\" >> ~/.ssh/authorized_keys; echo Key Installed; echo Press \\[Enter\\] key to exit...; read; )'", key);
@@ -295,6 +296,11 @@ namespace SuperCygwin
             }
             else
                 MessageBox.Show("Sorry, only cygwin is supported for installing keys.", "Cannot Install", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            em.RaiseNewForm(new ConfigFrm());
         }
     }
 }

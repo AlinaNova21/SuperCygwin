@@ -8,12 +8,14 @@ namespace SuperCygwin
     static class Program
     {
         public static bool dev=false;
+        public static Config Config;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main(string[] Args)
         {
+            Config = Config.Load();
             if (Args.Contains("-version"))
             {
                 Console.Write(Application.ProductVersion);
