@@ -125,6 +125,7 @@ namespace SuperCygwin
             //val += 0x11000000L;
             IntPtr ptr = new IntPtr(val);
             IntPtr Wnd = wnd.MainWindowHandle;
+            //MessageBox.Show(Native.GetParent(Wnd).ToString());
             Native.SetParent(Wnd, panel1.Handle);
             Native.ShowWindow(Wnd, WindowShowStyle.ShowNormal);
             Native.SetWindowLongPtr(Wnd, (int)WindowLongFlags.GWL_STYLE, 0);

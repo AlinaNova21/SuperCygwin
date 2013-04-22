@@ -23,9 +23,22 @@ namespace SuperCygwin
 
         [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr")]
         static extern IntPtr SetWindowLongPtr64(IntPtr hWnd, int nIndex, int dwNewLong);
-
+        
+        [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
+        public static extern IntPtr GetParent(IntPtr hWnd);
+        
         [DllImport("user32.dll")]
         public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+        
+        /// <summary>
+        /// Retrieves the handle to the ancestor of the specified window.
+        /// </summary>
+        /// <param name="hwnd">A handle to the window whose ancestor is to be retrieved.
+        /// If this parameter is the desktop window, the function returns NULL. </param>
+        /// <param name="flags">The ancestor to be retrieved.</param>
+        /// <returns>The return value is the handle to the ancestor window.</returns>
+        [DllImport("user32.dll", ExactSpelling = true)]
+        public static extern IntPtr GetAncestor(IntPtr hwnd, GetAncestorFlags flags);
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -255,6 +268,21 @@ namespace SuperCygwin
         /// minimizing windows from a different thread.</summary>
         /// <remarks>See SW_FORCEMINIMIZE</remarks>
         ForceMinimized = 11
+    }
+    enum GetAncestorFlags
+    {
+        /// <summary>
+        /// Retrieves the parent window. This does not include the owner, as it does with the GetParent function.
+        /// </summary>
+        GetParent = 1,
+        /// <summary>
+        /// Retrieves the root window by walking the chain of parent windows.
+        /// </summary>
+        GetRoot = 2,
+        /// <summary>
+        /// Retrieves the owned root window by walking the chain of parent and owner windows returned by GetParent.
+        /// </summary>
+        GetRootOwner = 3
     }
 
 }

@@ -80,7 +80,7 @@ namespace SuperCygwin.Forms.Presets
             get
             {
                 return string.Format("/usr/bin/ssh {0} -P{1} {2}",
-                    (Username != ""?Username+"@":"")+Hostname,
+                    (Username != ""?Username+"@":"root@")+Hostname,
                     Port,
                     "",//PrivateKey==""?"":"-i \""+PrivateKey+"\"",
                     Forwards);
@@ -111,12 +111,16 @@ namespace SuperCygwin.Forms.Presets
                         default:
                             if(Hostname=="")
                             {
-                                if(v.Contains('@'))
+                                if (v.Contains('@'))
                                 {
-                                    Username=v.Split('@')[0];
-                                    Hostname=v.Split('@')[1];
-                                }else
-                                    Hostname=v;
+                                    Username = v.Split('@')[0];
+                                    Hostname = v.Split('@')[1];
+                                }
+                                else
+                                {
+                                    Username = "root";
+                                    Hostname = v;
+                                }
                             }
                             break;
                     }
