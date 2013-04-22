@@ -40,7 +40,7 @@
             // ni
             // 
             this.ni.Icon = ((System.Drawing.Icon)(resources.GetObject("ni.Icon")));
-            this.ni.Text = "notifyIcon1";
+            this.ni.Text = "SuperCygwin";
             this.ni.Visible = true;
             // 
             // toolStrip1
