@@ -286,7 +286,7 @@ namespace SuperCygwin
             {
                 if (DialogResult.Yes == MessageBox.Show("Install Cygwin public key onto remote server?", "Install Key", MessageBoxButtons.YesNo))
                 {
-                    string HOME = Directory.GetDirectories(@"C:\cygwin\home\")[0];
+                    string HOME = string.Format(@"C:\cygwin\home\{0}\",Environment.UserName);//Directory.GetDirectories(@"C:\cygwin\home\")[0];
                     string key = File.ReadAllText(Path.Combine(HOME, ".ssh/id_rsa.pub"));
                     ProcessStartInfo psi = p.PSI;
                     psi.Arguments += string.Format(" '( echo \"{0}\" >> ~/.ssh/authorized_keys; echo Key Installed; echo Press \\[Enter\\] key to exit...; read; )'", key);

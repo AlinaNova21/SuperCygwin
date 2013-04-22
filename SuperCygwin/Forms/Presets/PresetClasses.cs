@@ -12,7 +12,7 @@ namespace SuperCygwin.Forms.Presets
 {
     public class Preset
     {
-
+        protected string _args;
         public string Name
         {
             get;
@@ -29,8 +29,8 @@ namespace SuperCygwin.Forms.Presets
         }
         public string Args
         {
-            get;
-            set;
+            get{return _args;}
+            set { _args = value; }
         }
 
         [JsonIgnore]
@@ -79,14 +79,16 @@ namespace SuperCygwin.Forms.Presets
         {
             get
             {
-                return string.Format("/usr/bin/ssh {0} -P{1} {2}",
-                    (Username != ""?Username+"@":"root@")+Hostname,
+                _args = string.Format("/usr/bin/ssh {0} -P{1} {2}",
+                    (Username != "" ? Username + "@" : "root@") + Hostname,
                     Port,
                     "",//PrivateKey==""?"":"-i \""+PrivateKey+"\"",
                     Forwards);
+                return _args;
             }
             set
             {
+                _args = value;
                 Forwards = "";
                 Hostname = "";
                 Port = 22;
