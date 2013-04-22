@@ -29,8 +29,8 @@ namespace SuperCygwin
             if(File.Exists(e.Process.FileName))
             {
                 if(e.Process.Arguments.StartsWith("/usr/bin/"))
-                    if (!File.Exists(e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/", @"C:\cygwin\bin\")) &&
-                        !File.Exists(e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/", @"C:\cygwin\bin\") + ".exe")) 
+                    if (!File.Exists(e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/", Program.Config.CygwinPath+@"bin\")) &&
+                        !File.Exists(e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/", Program.Config.CygwinPath + @"bin\") + ".exe")) 
                     {
                         if (!File.Exists("cygwin_setup.exe"))
                         {
@@ -132,8 +132,8 @@ namespace SuperCygwin
             IntPtr Wnd = wnd.MainWindowHandle;
             //MessageBox.Show(Native.GetParent(Wnd).ToString());
             Native.SetParent(Wnd, panel1.Handle);
-            Native.ShowWindow(Wnd, WindowShowStyle.ShowNormal);
             Native.SetWindowLongPtr(Wnd, (int)WindowLongFlags.GWL_STYLE, 0);
+            Native.ShowWindow(Wnd, WindowShowStyle.ShowNormal);
             Native.SetWindowPos(Wnd, Native.HWND_TOPMOST, 0, 0, panel1.Width, panel1.Height, (SWP.FRAMECHANGED + SWP.SHOWWINDOW));
             this.DataBindings.Add("Text", wnd, "MainWindowTitle");
             File.AppendAllText("log.txt", string.Format("INIT: {0} {1}x{2} {3}x{4}\r\n", wnd.MainWindowTitle, 0, 0, Width, Height));
