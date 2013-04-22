@@ -2,7 +2,7 @@ SuperCygwin
 ===========
 SuperCygwin is a tabbed interface for MinTTY (Cygwin). 
 It was inspired by SuperPutty but has been re-wrote for use with Cygwin's MinTTY.
-The program can be linked to almost any MinTTY environments, and is not limited to Cygwin
+The program currently expects cygwin to be in C:\cygwin. Adding support for alternate locations is planned for a future build.
 
 Compiling:
 The project requires .net framework 4 and the previous versions to to meet all program and library requirements.
