@@ -119,3 +119,4 @@ setup.log.full
 *.zip
 Release/SuperCygwin/*
 upload.bat.bak
+*.bak

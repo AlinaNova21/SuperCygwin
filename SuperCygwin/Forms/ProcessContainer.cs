@@ -187,7 +187,7 @@ namespace SuperCygwin
                 try
                 {
                     process.CloseMainWindow();
-                    process.WaitForExit(10000);
+                    process.WaitForExit(2000);
                     if (!process.Responding)
                         process.Kill();
                 }
@@ -201,7 +201,7 @@ namespace SuperCygwin
                 try
                 {
                     process.CloseMainWindow();
-                    process.WaitForExit(10000);
+                    process.WaitForExit(2000);
                     if (!process.Responding)
                         process.Kill();
                 }

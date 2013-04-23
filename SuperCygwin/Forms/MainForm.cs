@@ -11,6 +11,8 @@ using System.Runtime.InteropServices;
 using WeifenLuo.WinFormsUI.Docking;
 using System.Drawing.Drawing2D;
 using SuperCygwin.Forms;
+using System.Threading;
+using System.Net;
 
 namespace SuperCygwin
 {
@@ -55,6 +57,22 @@ namespace SuperCygwin
             em.NewForm += new EventManager.NewFormEventHandler(em_NewForm);
 
             version.Text = string.Format("Version: {0}", Application.ProductVersion);
+            Thread UpdateCheck = new Thread(new ThreadStart(()=>{
+                WebClient wc = new WebClient();
+                try
+                {
+                    string type=Program.Config.DevBuilds ? "snapshot" : "latest";
+                    string ver = wc.DownloadString(string.Format("http://ags131.co/supercygwin/{0}-version.txt", type));
+                    if (new Version(ver).CompareTo(new Version(Application.ProductVersion)) > 0)
+                        if (DialogResult.Yes == MessageBox.Show(string.Format("A new version is available: {0}Current: {1}{0}Latest: {2}{0}Do you want to update?", "\n", Application.ProductVersion, ver), "Update", MessageBoxButtons.YesNo))
+                        {
+                            Process.Start(string.Format("http://ags131.co/supercygwin/SuperCygwin-{0}.zip", ver));
+                            Application.Exit();
+                        }
+                }
+                catch (Exception ex){}
+            }));
+            UpdateCheck.Start();
         }
 
         void em_NewForm(object sender, EventManager.NewFormEventArgs e)

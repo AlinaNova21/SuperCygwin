@@ -38,8 +38,10 @@ namespace SuperCygwin.Forms
                 pc.FormBorderStyle = FormBorderStyle.None;
                 pc.Show();
             });
+            richTextBox1.Text = "Disabled.";
+            //startCmd();
         }
-
+        
         private void button1_Click(object sender, EventArgs e)
         {
             checkedListBox1.Items.Clear();
@@ -56,6 +58,77 @@ namespace SuperCygwin.Forms
                             p.Id),
                             Native.GetParent(p.MainWindowHandle).ToString() != "0");
                 }
+        }
+
+        private void richTextBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            
+        }
+
+        Process cmd;
+
+        void startCmd()
+        {
+            richTextBox1.Text = "";
+            cmd = new Process();
+            cmd.EnableRaisingEvents = true;
+            ProcessStartInfo psi = new ProcessStartInfo(@"C:\cygwin\bin\ssh.exe", "root@ags131.co");
+            psi.CreateNoWindow = true;
+            psi.RedirectStandardError = true;
+            psi.RedirectStandardInput = true;
+            psi.RedirectStandardOutput = true;
+            psi.UseShellExecute = false;
+            cmd.StartInfo = psi;
+            cmd.Start();
+            //cmd.WaitForInputIdle();
+            cmd.OutputDataReceived += new DataReceivedEventHandler(cmd_OutputDataReceived);
+            cmd.BeginOutputReadLine();
+        }
+
+        void cmd_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            Invoke((Action<string>)((d)=>{
+                richTextBox1.AppendText(d+"\n");
+            }),e.Data);
+            
+        }
+
+        private void richTextBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            e.Handled = true;
+            if (cmd == null) return;
+            switch (e.KeyCode)
+            {
+                case Keys.Escape:
+                    esc = true;
+                    break;
+                case Keys.OemOpenBrackets:
+                    if(esc)
+                    {
+                        esc = false;
+                        csi = true;
+                    }
+                    break;
+                case Keys.Return:
+                    cmd.StandardInput.Close();
+                    break;
+                default:
+                    if (csi)
+                    {
+                        buff += e.KeyCode.ToString();
+                    }else
+                        cmd.StandardInput.Write((char)e.KeyCode);
+                    richTextBox1.AppendText(((char)e.KeyData).ToString());
+                    break;
+            }
+        }
+
+        public bool esc = false;
+        public bool csi = false;
+        public string buff = "";
+        private void richTextBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }

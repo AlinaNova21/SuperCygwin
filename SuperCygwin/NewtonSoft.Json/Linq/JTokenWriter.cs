@@ -25,9 +25,6 @@
 
 using System;
 using System.Globalization;
-#if !(NET20 || NET35 || SILVERLIGHT || PORTABLE40 || PORTABLE)
-using System.Numerics;
-#endif
 using Newtonsoft.Json.Utilities;
 
 namespace Newtonsoft.Json.Linq

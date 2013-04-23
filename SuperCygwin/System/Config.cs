@@ -12,6 +12,14 @@ namespace SuperCygwin
     {
         public static Config Main;
 
+        private bool _devBuilds = false;
+        [Browsable(true)]
+        public bool DevBuilds
+        {
+            get { return _devBuilds; }
+            set { _devBuilds = value; }
+        }
+
         private string _cygPath = @"C:\cygwin\";
         [EditorAttribute(typeof(System.Windows.Forms.Design.FolderNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public string CygwinPath
@@ -83,7 +91,7 @@ namespace SuperCygwin
 
         public void Save()
         {
-            File.WriteAllText("config.json", JsonConvert.SerializeObject(this));
+            File.WriteAllText("config.json", JsonConvert.SerializeObject(this, Formatting.Indented));
         }
     }
 }
