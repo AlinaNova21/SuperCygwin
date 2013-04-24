@@ -21,10 +21,11 @@ namespace SuperCygwin
         DockPanel dp;
         FormWindowState oldWindowState=FormWindowState.Normal;
         EventManager em = new EventManager();
-
+        public static MainForm Main;
         public MainForm()
         {
             InitializeComponent();
+            Main = this;
             dp = new DockPanel();
             dp.DocumentStyle = DocumentStyle.DockingWindow;
             dp.Dock = DockStyle.Fill;

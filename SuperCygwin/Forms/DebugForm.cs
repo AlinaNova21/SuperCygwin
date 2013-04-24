@@ -39,6 +39,15 @@ namespace SuperCygwin.Forms
                 pc.Show();
             });
             richTextBox1.Text = "Disabled.";
+
+            //Process p = Process.Start(@"C:\cygwin\bin\mintty.exe", "-");
+
+            //IntPtr localThread, remoteThread;
+            //localThread = Native.GetWindowThreadProcessId(Handle, IntPtr.Zero);
+            //remoteThread = Native.GetWindowThreadProcessId(p.MainWindowHandle, IntPtr.Zero);
+            //Native.AttachThreadInput(remoteThread, localThread, true);
+            //Native.BringWindowToTop(p.MainWindowHandle);
+            //Native.SetFocus(p.MainWindowHandle);
             //startCmd();
         }
         
@@ -50,14 +59,62 @@ namespace SuperCygwin.Forms
                 foreach (Process p in Process.GetProcessesByName(name))
                 {
                     //if (Native.GetParent(p.MainWindowHandle).ToInt32() == 0)
-                        checkedListBox1.Items.Add(string.Format(
-                            "{0} {1} {3} {2}",
+                    List<IntPtr> h = (List<IntPtr>)Native.EnumerateProcessWindowHandles(p);
+                    if (h.Count == 0) h.Add(IntPtr.Zero);
+                    checkedListBox1.Items.Add(
+                        string.Format(
+                            "{0} {1} {2} {3} {4}",
                             p.ProcessName,
-                            Native.GetAncestor(p.MainWindowHandle,GetAncestorFlags.GetRoot),
-                            p.MainWindowHandle,
-                            p.Id),
-                            Native.GetParent(p.MainWindowHandle).ToString() != "0");
+                            p.Id,
+                            h.Count,
+                            Native.GetAncestor(h[0],GetAncestorFlags.GetRootOwner),
+                            h[0]),
+                        Native.GetParent(h[0]).ToString() != "0");
+                    if (Native.GetParent(h[0]).ToString() != "0")
+                        Native.SetParent(h[0], IntPtr.Zero);
                 }
+        }
+
+        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            listBox1.Items.Clear();
+            foreach (IntPtr i in Native.EnumerateProcessWindowHandles(
+                    Process.GetProcessById(
+                        int.Parse(
+                            checkedListBox1.SelectedItem.ToString().Split(' ')[1]
+                        )
+                    )
+                ).ToArray())
+                listBox1.Items.Add(i.ToString()+"  "+title(i));
+
+            listBox2.Items.Clear();
+            foreach (ProcessThread t in Process.GetProcessById(
+                        int.Parse(
+                            checkedListBox1.SelectedItem.ToString().Split(' ')[1]
+                        )
+                    ).Threads)
+                listBox2.Items.Add(t.Id+" "+t.StartAddress);
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            foreach (string pr in checkedListBox1.CheckedItems)
+            {
+                int id = int.Parse(pr.ToString().Split(' ')[1]);
+                Process p = Process.GetProcessById(id);
+                foreach (ProcessThread pt in p.Threads)
+                {
+                    Native.PostThreadMessage((uint)pt.Id, WM.QUIT, UIntPtr.Zero, IntPtr.Zero);
+                }
+            }
+        }
+
+        string title(IntPtr hWnd)
+        {
+            StringBuilder message = new StringBuilder(1000);
+            Native.SendMessage(hWnd, (uint)WM.GETTEXT, message.Capacity, message);
+            return message.ToString();
         }
 
         private void richTextBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -130,5 +187,13 @@ namespace SuperCygwin.Forms
         {
             e.Handled = true;
         }
+
+        private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
+       
     }
 }

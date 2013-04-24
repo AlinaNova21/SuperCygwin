@@ -9,6 +9,7 @@ using System.Diagnostics;
 using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
 using System.Net;
+using System.Threading;
 
 namespace SuperCygwin
 {
@@ -123,21 +124,25 @@ namespace SuperCygwin
             menuStrip1.Visible = Program.dev;
 
             Resize += new EventHandler(ResizeEmbedded);
-            //ResizeEnd += new EventHandler(ResizeEmbedded);
             Process wnd = process;
             wnd.WaitForInputIdle(3000);
             long val = 0;
-            //val += 0x11000000L;
             IntPtr ptr = new IntPtr(val);
             IntPtr Wnd = wnd.MainWindowHandle;
-            //MessageBox.Show(Native.GetParent(Wnd).ToString());
-            Native.SetParent(Wnd, panel1.Handle);
-            Native.SetWindowLongPtr(Wnd, (int)WindowLongFlags.GWL_STYLE, 0);
+            Native.SetParent(Wnd, panel1.Handle);  
+            Native.SetWindowLongPtr(Wnd, (int)WindowLongFlags.GWL_STYLE, (int)WS.CHILD);
+            IntPtr localThread, remoteThread;
+            localThread = Native.GetWindowThreadProcessId(Handle, IntPtr.Zero);
+            remoteThread = Native.GetWindowThreadProcessId(Wnd, IntPtr.Zero);
+            Native.AttachThreadInput(remoteThread, localThread, true);
+            Native.BringWindowToTop(Wnd);
+            Native.SetFocus(Wnd);
             Native.ShowWindow(Wnd, WindowShowStyle.ShowNormal);
             Native.SetWindowPos(Wnd, Native.HWND_TOPMOST, 0, 0, panel1.Width, panel1.Height, (SWP.FRAMECHANGED + SWP.SHOWWINDOW));
             this.DataBindings.Add("Text", wnd, "MainWindowTitle");
             File.AppendAllText("log.txt", string.Format("INIT: {0} {1}x{2} {3}x{4}\r\n", wnd.MainWindowTitle, 0, 0, Width, Height));
             Native.SetWindowPos(process.MainWindowHandle, IntPtr.Zero, 0, 0, panel1.Width, panel1.Height, (SWP.FRAMECHANGED + SWP.NOZORDER + SWP.NOACTIVATE));
+            
         }
 
         public void SetFocus()
@@ -225,14 +230,19 @@ namespace SuperCygwin
         {
             IntPtr mnu = Native.GetSystemMenu(process.MainWindowHandle, false);
             uint cmd = Native.TrackPopupMenuEx(mnu, 0x0100, MousePosition.X, MousePosition.Y, Handle, IntPtr.Zero);
-            Native.PostMessage(Handle, 0x112, new IntPtr(cmd), IntPtr.Zero);
+            Native.PostMessage(Handle, WM.SYSCOMMAND, new IntPtr(cmd), IntPtr.Zero);
         }
         private void contextMenuToolStripMenuItem_Click(object sender, EventArgs e)
         {
             IntPtr mnu = Native.GetSystemMenu(process.MainWindowHandle, false);
             uint cmd = Native.TrackPopupMenuEx(mnu, 0x0100, MousePosition.X, MousePosition.Y, Handle, IntPtr.Zero);
             //MessageBox.Show("" + cmd);
-            Native.PostMessage(process.MainWindowHandle, 0x112, new IntPtr(cmd), IntPtr.Zero);
+            Native.PostMessage(process.MainWindowHandle, WM.SYSCOMMAND, new IntPtr(cmd), IntPtr.Zero);
+        }
+
+        private void breakOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
