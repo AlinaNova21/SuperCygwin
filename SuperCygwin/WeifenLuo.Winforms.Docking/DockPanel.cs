@@ -1076,5 +1076,22 @@ namespace WeifenLuo.WinFormsUI.Docking
 			if (handler != null)
 				handler(this, e);
 		}
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == (int)Win32.Msgs.WM_LBUTTONDOWN)
+            {
+                uint ret = NativeMethods.SendMessage(Handle, (int)Win32.Msgs.WM_NCHITTEST, 0, (uint)m.LParam);
+                MessageBox.Show("DockPanelHit " + ((Win32.HitTest)ret).ToString());
+            }
+               
+            base.WndProc(ref m);
+            if (m.Msg == (int)Win32.Msgs.WM_NCHITTEST)
+            {
+                if (m.Result.ToInt32() == (int)Win32.HitTest.HTCLIENT)
+                    m.Result = (IntPtr)Win32.HitTest.HTTRANSPARENT;
+                    //MessageBox.Show("DockPanelHit "+(Win32.HitTest)m.Result.ToInt32());
+            }
+
+        }
     }
 }

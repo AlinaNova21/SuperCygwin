@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace SuperCygwin
 {
@@ -107,12 +108,141 @@ namespace SuperCygwin
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool PostThreadMessage(uint threadId, WM msg, UIntPtr wParam, IntPtr lParam);
 
+        [DllImport("dwmapi.dll", PreserveSig = true)]
+        public static extern int DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
+
+        public static bool AeroEnabled()
+        {
+            bool ret;
+            if (Environment.OSVersion.Version.Major < 6) return false;
+            DwmIsCompositionEnabled(out ret);
+            return ret;
+        }
+
+        [DllImport("dwmapi.dll")]
+        public static extern int DwmIsCompositionEnabled(out bool enabled);
+
+
         public static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
         public static readonly IntPtr HWND_NOTOPMOST = new IntPtr(-2);
         public static readonly IntPtr HWND_TOP = new IntPtr(0);
         public static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
     }
-   
+
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct MARGINS
+    {
+        public int LeftWidth;
+        public int RightWidth;
+        public int TopHeight;
+        public int BottomHeight;
+        public MARGINS(int Left, int Right, int Top, int Bottom)
+        {
+            this.LeftWidth = Left;
+            this.RightWidth = Right;
+            this.TopHeight = Top;
+            this.BottomHeight = Bottom;
+        }
+    }
+
+    /*[StructLayout(LayoutKind.Sequential)]                   // This is the default layout for a structure
+    public struct RECT
+    {
+        public int Left;
+        public int Top;
+        public int Right;
+        public int Bottom;
+    }*/
+    [StructLayout(LayoutKind.Explicit)]
+    public struct RECT
+    {
+        // Fields
+        [FieldOffset(12)]
+        public int Bottom;
+        [FieldOffset(0)]
+        public int Left;
+        [FieldOffset(8)]
+        public int Right;
+        [FieldOffset(4)]
+        public int Top;
+
+        // Methods
+        public RECT(Rectangle rect)
+        {
+            this.Left = rect.Left;
+            this.Top = rect.Top;
+            this.Right = rect.Right;
+            this.Bottom = rect.Bottom;
+        }
+
+        public RECT(int left, int top, int right, int bottom)
+        {
+            this.Left = left;
+            this.Top = top;
+            this.Right = right;
+            this.Bottom = bottom;
+        }
+
+        public void Set()
+        {
+            this.Left = this.Top = this.Right = this.Bottom = 0;
+        }
+
+        public void Set(Rectangle rect)
+        {
+            this.Left = rect.Left;
+            this.Top = rect.Top;
+            this.Right = rect.Right;
+            this.Bottom = rect.Bottom;
+        }
+
+        public void Set(int left, int top, int right, int bottom)
+        {
+            this.Left = left;
+            this.Top = top;
+            this.Right = right;
+            this.Bottom = bottom;
+        }
+
+        public Rectangle ToRectangle()
+        {
+            return new Rectangle(this.Left, this.Top, this.Right - this.Left, this.Bottom - this.Top);
+        }
+
+        // Properties
+        public int Height
+        {
+            get
+            {
+                return (this.Bottom - this.Top);
+            }
+        }
+
+        public Size Size
+        {
+            get
+            {
+                return new Size(this.Width, this.Height);
+            }
+        }
+
+        public int Width
+        {
+            get
+            {
+                return (this.Right - this.Left);
+            }
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]                   // This is the default layout for a structure
+    public struct NCCALCSIZE_PARAMS
+    {
+        public RECT rect0, rect1, rect2;                    // Can't use an array here so simulate one
+        public IntPtr lppos;
+    }
+
     enum WindowLongFlags : int
     {
         GWL_EXSTYLE = -20,

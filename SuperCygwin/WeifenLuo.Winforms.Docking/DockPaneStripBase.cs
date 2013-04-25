@@ -196,14 +196,12 @@ namespace WeifenLuo.WinFormsUI.Docking
                     IDockContent content = Tabs[index].Content;
                     if (DockPane.ActiveContent != content)
                         DockPane.ActiveContent = content;
+                    if (DockPane.DockPanel.AllowEndUserDocking && DockPane.AllowDockDragAndDrop && DockPane.ActiveContent.DockHandler.AllowEndUserDocking)
+                        DockPane.DockPanel.BeginDrag(DockPane.ActiveContent.DockHandler);
                 }
             }
 
-            if (e.Button == MouseButtons.Left)
-            {
-                if (DockPane.DockPanel.AllowEndUserDocking && DockPane.AllowDockDragAndDrop && DockPane.ActiveContent.DockHandler.AllowEndUserDocking)
-                    DockPane.DockPanel.BeginDrag(DockPane.ActiveContent.DockHandler);
-            }
+            
         }
 
         protected bool HasTabPageContextMenu
@@ -226,13 +224,29 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
 		protected override void WndProc(ref Message m)
-		{
+        {
+            /**/
+            if (m.Msg == (int)Win32.Msgs.WM_LBUTTONDOWN)
+            {
+                uint ret = NativeMethods.SendMessage(Handle, (int)Win32.Msgs.WM_NCHITTEST, 0, (uint)m.LParam);
+                //MessageBox.Show(this.GetType().Name+" NCHITTEST " + ((Win32.HitTest)ret).ToString());
+            }/**/
+            if (m.Msg == (int)Win32.Msgs.WM_NCHITTEST)
+            {
+                int index = HitTest();
+                if (index == -1)
+                {
+                    m.Result = (IntPtr)Win32.HitTest.HTTRANSPARENT;
+                    return;
+                }
+            }
+                
 			if (m.Msg == (int)Win32.Msgs.WM_LBUTTONDBLCLK)
 			{
 				base.WndProc(ref m);
 
 				int index = HitTest();
-				if (DockPane.DockPanel.AllowEndUserDocking && index != -1)
+                if (DockPane.DockPanel.AllowEndUserDocking && index != -1)
 				{
 					IDockContent content = Tabs[index].Content;
                     if (content.DockHandler.CheckDockState(!content.DockHandler.IsFloat) != DockState.Unknown)

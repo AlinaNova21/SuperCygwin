@@ -174,7 +174,13 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
 		protected override void WndProc(ref Message m)
-		{
+        {
+            /**/
+            if (m.Msg == (int)Win32.Msgs.WM_LBUTTONDOWN)
+            {
+                uint ret = NativeMethods.SendMessage(Handle, (int)Win32.Msgs.WM_NCHITTEST, 0, (uint)m.LParam);
+                MessageBox.Show(this.GetType().Name + " NCHITTEST " + ((Win32.HitTest)ret).ToString());
+            }/**/
 			if (m.Msg == (int)Win32.Msgs.WM_NCLBUTTONDOWN)
 			{
 				if (IsDisposed)

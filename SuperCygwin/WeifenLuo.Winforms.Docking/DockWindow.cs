@@ -92,14 +92,20 @@ namespace WeifenLuo.WinFormsUI.Docking
 		{
 			get
 			{
-				Rectangle rect = ClientRectangle;
+                Rectangle rect = ClientRectangle;
+                if (DockState != DockState.Document && Location.Y < 50 && !IsFloat)
+                {
+                    rect.Y += 25;
+                    rect.Height -= 25;
+                }
+
 				// if DockWindow is document, exclude the border
-				if (DockState == DockState.Document)
+                if (DockState == DockState.Document)
 				{
-					rect.X += 1;
-					rect.Y += 1;
-					rect.Width -= 2;
-					rect.Height -= 2;
+					//rect.X += 1;
+					//rect.Y += 1;
+					//rect.Width -= 2;
+					//rect.Height -= 2;
 				}
 				// exclude the splitter
 				else if (DockState == DockState.DockLeft)
@@ -124,8 +130,8 @@ namespace WeifenLuo.WinFormsUI.Docking
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			// if DockWindow is document, draw the border
-            if (DockState == DockState.Document)
-                e.Graphics.DrawRectangle(SystemPens.ControlDark, ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width - 1, ClientRectangle.Height - 1);
+            //if (DockState == DockState.Document)
+              //  e.Graphics.DrawRectangle(SystemPens.ControlDark, ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width - 1, ClientRectangle.Height - 1);
 
 			base.OnPaint(e);
 		}
@@ -239,5 +245,29 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         #endregion
         #endregion
+
+        protected override void WndProc(ref Message m)
+        {
+            /**/
+            if (m.Msg == (int)Win32.Msgs.WM_LBUTTONDOWN)
+            {
+                uint ret = NativeMethods.SendMessage(Handle, (int)Win32.Msgs.WM_NCHITTEST, 0, (uint)m.LParam);
+                //MessageBox.Show(this.GetType().Name + " NCHITTEST " + ((Win32.HitTest)ret).ToString());
+            }/**/
+            if (m.Msg == (int)Win32.Msgs.WM_NCHITTEST)
+            {
+                base.WndProc(ref m);
+                //if (m.Result.ToInt32() == 0)
+                //m.Result = (IntPtr)Win32.HitTest.HTTRANSPARENT;
+                int x = (short)(m.LParam.ToInt32() & 0x0000FFFF);
+                int y = (short)((m.LParam.ToInt32() & 0xFFFF0000) >> 16);
+                Point pos = new Point(x, y);
+                pos = PointToClient(pos);
+                //if (!DisplayingRectangle.Contains(pos))
+                    m.Result = (IntPtr)Win32.HitTest.HTTRANSPARENT;
+                return;
+            }
+            base.WndProc(ref m);
+        }
     }
 }

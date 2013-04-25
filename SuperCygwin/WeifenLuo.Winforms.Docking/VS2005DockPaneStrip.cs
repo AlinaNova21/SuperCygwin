@@ -989,13 +989,14 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             g.SetClip(rectTabStrip);
 
+            
             if (DockPane.DockPanel.DocumentTabStripLocation == DocumentTabStripLocation.Bottom)
                 g.DrawLine(PenDocumentTabActiveBorder, rectTabStrip.Left, rectTabStrip.Top + 1,
                     rectTabStrip.Right, rectTabStrip.Top + 1);
             else
                 g.DrawLine(PenDocumentTabActiveBorder, rectTabStrip.Left, rectTabStrip.Bottom - 1,
                     rectTabStrip.Right, rectTabStrip.Bottom - 1);
-
+            
             g.SetClip(DrawHelper.RtlTransform(this, rectTabOnly));
             if (tabActive != null)
             {

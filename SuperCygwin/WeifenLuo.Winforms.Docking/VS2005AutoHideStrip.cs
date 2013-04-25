@@ -207,8 +207,9 @@ namespace WeifenLuo.WinFormsUI.Docking
             Color startColor = DockPanel.Skin.AutoHideStripSkin.DockStripGradient.StartColor;
             Color endColor = DockPanel.Skin.AutoHideStripSkin.DockStripGradient.EndColor;
             LinearGradientMode gradientMode = DockPanel.Skin.AutoHideStripSkin.DockStripGradient.LinearGradientMode;
-            using (LinearGradientBrush brush = new LinearGradientBrush(ClientRectangle, startColor, endColor, gradientMode))
+            //using (LinearGradientBrush brush = new LinearGradientBrush(ClientRectangle, startColor, endColor, gradientMode))
             {
+                SolidBrush brush = new SolidBrush(SuperCygwin.MainForm.Trans);
                 g.FillRectangle(brush, ClientRectangle);
             }
 
@@ -264,7 +265,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         private void CalculateTabs(DockState dockState)
         {
             Rectangle rectTabStrip = GetLogicalTabStripRectangle(dockState);
-
+            
             int imageHeight = rectTabStrip.Height - ImageGapTop - ImageGapBottom;
             int imageWidth = ImageWidth;
             if (imageHeight > ImageHeight)
@@ -431,6 +432,11 @@ namespace WeifenLuo.WinFormsUI.Docking
             else
                 return Rectangle.Empty;
 
+            if (dockState == DockState.DockLeftAutoHide || dockState == DockState.DockRightAutoHide)
+            {
+                //x += 30;
+                //width -= 30;
+            }
             if (!transformed)
                 return new Rectangle(x, y, width, height);
             else
@@ -456,6 +462,12 @@ namespace WeifenLuo.WinFormsUI.Docking
                 0 : TabGapTop);
             int width = tab.TabWidth;
             int height = rectTabStrip.Height - TabGapTop;
+
+            if (dockState == DockState.DockLeftAutoHide || dockState == DockState.DockRightAutoHide)
+            {
+                x += 30;
+                //width -= 30;
+            }
 
             if (!transformed)
                 return new Rectangle(x, y, width, height);
@@ -521,6 +533,11 @@ namespace WeifenLuo.WinFormsUI.Docking
         protected override AutoHideStripBase.Tab CreateTab(IDockContent content)
         {
             return new TabVS2005(content);
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
         }
     }
 }

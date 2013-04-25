@@ -121,6 +121,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             else
                 content.DockHandler.PanelPane = this;
 
+            BackColor = SuperCygwin.MainForm.Trans;
             ResumeLayout();
             DockPanel.ResumeLayout(true, true);
         }
@@ -291,7 +292,9 @@ namespace WeifenLuo.WinFormsUI.Docking
                 y = rectWindow.Y;
                 width = rectWindow.Width;
                 int height = CaptionControl.MeasureHeight();
-
+                //MessageBox.Show(this.Location.Y.ToString());
+                //if (DockState != DockState.Document && Location.Y==0)
+                    //y += 20;
                 return new Rectangle(x, y, width, height);
             }
         }
@@ -305,14 +308,18 @@ namespace WeifenLuo.WinFormsUI.Docking
                 Rectangle rectTabStrip = TabStripRectangle;
 
                 int x = rectWindow.X;
-
+                
                 int y = rectWindow.Y + (rectCaption.IsEmpty ? 0 : rectCaption.Height);
                 if (DockState == DockState.Document && DockPanel.DocumentTabStripLocation == DocumentTabStripLocation.Top)
                     y += rectTabStrip.Height;
 
                 int width = rectWindow.Width;
                 int height = rectWindow.Height - rectCaption.Height - rectTabStrip.Height;
-
+                /*if (DockState != DockState.Document && Location.Y==0 && !IsFloat)
+                {
+                    y += 20;
+                    height -= 20;
+                }*/
                 return new Rectangle(x, y, width, height);
             }
         }
@@ -345,6 +352,9 @@ namespace WeifenLuo.WinFormsUI.Docking
                 if (rectCaption.Contains(x, y))
                     y = rectCaption.Y + rectCaption.Height;
 
+            //    if (DockState != DockState.Document && Location.Y == 0 && !IsFloat)
+             //       y += 20;
+
                 return new Rectangle(x, y, width, height);
             }
         }
@@ -370,6 +380,8 @@ namespace WeifenLuo.WinFormsUI.Docking
                 else
                     y = rectWindow.Y;
 
+                //if (DockState != DockState.Document && Location.Y == 0 && !IsFloat)
+                //    y += 20;
                 return new Rectangle(x, y, width, height);
             }
         }
@@ -464,7 +476,16 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         internal Rectangle DisplayingRectangle
         {
-            get { return ClientRectangle; }
+            get {
+                Rectangle ret= ClientRectangle;
+                if (DockState != DockState.Document && Location.Y == 0 && !IsFloat)
+                {
+                    ret.Y += 20;
+                    ret.Height -= 20;
+                }
+
+                return ret;
+            }
         }
 
         public void Activate()
@@ -1196,8 +1217,26 @@ namespace WeifenLuo.WinFormsUI.Docking
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         protected override void WndProc(ref Message m)
         {
+            if (m.Msg == (int)Win32.Msgs.WM_LBUTTONDOWN)
+            {
+                uint ret = NativeMethods.SendMessage(Handle, (int)Win32.Msgs.WM_NCHITTEST, 0, (uint)m.LParam);
+                //MessageBox.Show(this.GetType().Name + " NCHITTEST " + ((Win32.HitTest)ret).ToString());
+            }
             if (m.Msg == (int)Win32.Msgs.WM_MOUSEACTIVATE)
                 Activate();
+
+            if (m.Msg == (int)Win32.Msgs.WM_NCHITTEST)
+            {
+                base.WndProc(ref m);
+                //if(m.Result.ToInt32()==(int)Win32.HitTest.HTNOWHERE)
+                int x = (short)(m.LParam.ToInt32() & 0x0000FFFF);
+                int y = (short)((m.LParam.ToInt32() & 0xFFFF0000) >> 16);
+                Point pos = new Point(x, y);
+                pos=PointToClient(pos);
+                //if (!DisplayingRectangle.Contains(pos) || m.Result.ToInt32() == (int)Win32.HitTest.HTNOWHERE)
+                    m.Result = (IntPtr)Win32.HitTest.HTTRANSPARENT;
+                return;
+            }
 
             base.WndProc(ref m);
         }

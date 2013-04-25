@@ -153,5 +153,6 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             set { Splitter.Alignment = value; }
         }
+        
     }
 }

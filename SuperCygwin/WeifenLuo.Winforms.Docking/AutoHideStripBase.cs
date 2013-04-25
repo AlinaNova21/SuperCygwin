@@ -424,16 +424,24 @@ namespace WeifenLuo.WinFormsUI.Docking
 		protected internal Rectangle GetTabStripRectangle(DockState dockState)
 		{
 			int height = MeasureHeight();
+            Rectangle rect;
 			if (dockState == DockState.DockTopAutoHide && PanesTop.Count > 0)
-				return new Rectangle(RectangleTopLeft.Width, 0, Width - RectangleTopLeft.Width - RectangleTopRight.Width, height);
+				rect = new Rectangle(RectangleTopLeft.Width, 0, Width - RectangleTopLeft.Width - RectangleTopRight.Width, height);
 			else if (dockState == DockState.DockBottomAutoHide && PanesBottom.Count > 0)
-				return new Rectangle(RectangleBottomLeft.Width, Height - height, Width - RectangleBottomLeft.Width - RectangleBottomRight.Width, height);
+                rect = new Rectangle(RectangleBottomLeft.Width, Height - height, Width - RectangleBottomLeft.Width - RectangleBottomRight.Width, height);
 			else if (dockState == DockState.DockLeftAutoHide && PanesLeft.Count > 0)
-				return new Rectangle(0, RectangleTopLeft.Width, height, Height - RectangleTopLeft.Height - RectangleBottomLeft.Height);
+                rect = new Rectangle(0, RectangleTopLeft.Width, height, Height - RectangleTopLeft.Height - RectangleBottomLeft.Height);
 			else if (dockState == DockState.DockRightAutoHide && PanesRight.Count > 0)
-				return new Rectangle(Width - height, RectangleTopRight.Width, height, Height - RectangleTopRight.Height - RectangleBottomRight.Height);
+                rect = new Rectangle(Width - height, RectangleTopRight.Width, height, Height - RectangleTopRight.Height - RectangleBottomRight.Height);
 			else
-				return Rectangle.Empty;
+                rect = Rectangle.Empty;
+
+            if (dockState == DockState.DockLeftAutoHide || dockState == DockState.DockRightAutoHide)
+            {
+                rect.Y += 30;
+                rect.Height -= 30;
+            }
+            return rect;
 		}
 
 		private GraphicsPath m_displayingArea = null;
@@ -526,5 +534,28 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
 		protected abstract IDockContent HitTest(Point point);
+
+        protected override void WndProc(ref Message m)
+        {
+            /**/
+            if (m.Msg == (int)Win32.Msgs.WM_LBUTTONDOWN)
+            {
+                uint ret = NativeMethods.SendMessage(Handle, (int)Win32.Msgs.WM_NCHITTEST, 0, (uint)m.LParam);
+                //MessageBox.Show(this.GetType().Name + " NCHITTEST " + ((Win32.HitTest)ret).ToString());
+            }/**/
+
+
+            if (m.Msg == (int)Win32.Msgs.WM_NCHITTEST)
+            {
+                base.WndProc(ref m);
+                int x = (short)(m.LParam.ToInt32() & 0x0000FFFF);
+                int y = (short)((m.LParam.ToInt32() & 0xFFFF0000) >> 16);
+                Point pos = new Point(x, y);
+                pos = PointToClient(pos);
+                if (HitTest(pos) == null)
+                    m.Result = (IntPtr)Win32.HitTest.HTTRANSPARENT;
+            }
+            base.WndProc(ref m);
+        }
 	}
 }

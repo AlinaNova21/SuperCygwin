@@ -63,6 +63,21 @@ namespace WeifenLuo.WinFormsUI.Docking
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]         
         protected override void WndProc(ref Message m)
         {
+            /**/
+            if (m.Msg == (int)Win32.Msgs.WM_LBUTTONDOWN)
+            {
+                uint ret = NativeMethods.SendMessage(Handle, (int)Win32.Msgs.WM_NCHITTEST, 0, (uint)m.LParam);
+                MessageBox.Show(this.GetType().Name + " NCHITTEST " + ((Win32.HitTest)ret).ToString());
+            }/**/
+            if (m.Msg == (int)Win32.Msgs.WM_NCHITTEST)
+            {
+                base.WndProc(ref m);
+                //if (m.Result.ToInt32() == 2)
+                {
+                    m.Result = (IntPtr)Win32.HitTest.HTTRANSPARENT;
+                    return;
+                }
+            }
             if (m.Msg == (int)Win32.Msgs.WM_LBUTTONDBLCLK)
             {
                 if (DockHelper.IsDockStateAutoHide(DockPane.DockState))

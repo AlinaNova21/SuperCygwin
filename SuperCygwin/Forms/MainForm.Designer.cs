@@ -32,9 +32,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.ni = new System.Windows.Forms.NotifyIcon(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.version = new System.Windows.Forms.ToolStripStatusLabel();
             this.stat = new System.Windows.Forms.ToolStripStatusLabel();
             this.prog = new System.Windows.Forms.ToolStripProgressBar();
+            this.version = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,28 +46,22 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.AutoSize = false;
+            this.statusStrip1.BackColor = System.Drawing.SystemColors.Control;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.stat,
             this.prog,
             this.version});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 425);
+            this.statusStrip1.Location = new System.Drawing.Point(8, 417);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(646, 24);
+            this.statusStrip1.Size = new System.Drawing.Size(630, 24);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // version
-            // 
-            this.version.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-            this.version.Name = "version";
-            this.version.Size = new System.Drawing.Size(89, 19);
-            this.version.Tag = "Version: {0}";
-            this.version.Text = "Version: 0.0.0.0";
             // 
             // stat
             // 
             this.stat.Name = "stat";
-            this.stat.Size = new System.Drawing.Size(377, 19);
+            this.stat.Size = new System.Drawing.Size(526, 19);
             this.stat.Spring = true;
             this.stat.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -77,20 +71,29 @@
             this.prog.Size = new System.Drawing.Size(100, 18);
             this.prog.Visible = false;
             // 
+            // version
+            // 
+            this.version.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.version.Name = "version";
+            this.version.Size = new System.Drawing.Size(89, 19);
+            this.version.Tag = "Version: {0}";
+            this.version.Text = "Version: 0.0.0.0";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(646, 449);
             this.Controls.Add(this.statusStrip1);
+            this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
+            this.Padding = new System.Windows.Forms.Padding(8);
             this.Text = "SuperCygwin";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
