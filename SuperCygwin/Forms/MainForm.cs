@@ -47,7 +47,10 @@ namespace SuperCygwin
             ProcessContainer.RegisterNewProcessHandler(dp, em);
 
             PresetsForm p = new PresetsForm();
-            p.Show(dp, DockState.DockRight);
+            if(Program.Config.AutoHidepresets)
+                p.Show(dp, DockState.DockRightAutoHide);
+            else
+                p.Show(dp, DockState.DockRight);
 
             if (Program.dev)
             {
