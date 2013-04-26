@@ -1454,6 +1454,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 if (path.IsVisible(ptMouse))
                     return Tabs.IndexOf(tab);
             }
+
             return -1;
         }
 

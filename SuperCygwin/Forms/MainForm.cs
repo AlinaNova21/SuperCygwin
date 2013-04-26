@@ -63,7 +63,8 @@ namespace SuperCygwin
             Controls.Add(dp);
             dp.Paint += new PaintEventHandler(dp_Paint);
             dp.ActiveDocumentChanged += new EventHandler(dp_ActiveDocumentChanged);
-
+            //dp.
+            //dp.c;
             statusStrip1.SendToBack();
             //toolStrip1.SendToBack();
             //toolStrip1.Visible = Program.dev;
@@ -351,12 +352,12 @@ namespace SuperCygwin
 
             skin.DockPaneStripSkin.DocumentGradient.ActiveTabGradient.StartColor = SystemColors.ControlLightLight;
             skin.DockPaneStripSkin.DocumentGradient.ActiveTabGradient.EndColor = SystemColors.ControlLight;
-            skin.DockPaneStripSkin.DocumentGradient.ActiveTabGradient.TextColor = t;
+            skin.DockPaneStripSkin.DocumentGradient.ActiveTabGradient.TextColor = c;
             skin.DockPaneStripSkin.DocumentGradient.ActiveTabGradient.LinearGradientMode = LinearGradientMode.Vertical;
             
             skin.DockPaneStripSkin.DocumentGradient.InactiveTabGradient.StartColor = SystemColors.ControlLight;
             skin.DockPaneStripSkin.DocumentGradient.InactiveTabGradient.EndColor = SystemColors.ControlLight;
-            skin.DockPaneStripSkin.DocumentGradient.InactiveTabGradient.TextColor = t;
+            skin.DockPaneStripSkin.DocumentGradient.InactiveTabGradient.TextColor = c;
 
             skin.DockPaneStripSkin.ToolWindowGradient.DockStripGradient.StartColor = SystemColors.ControlLight;
             skin.DockPaneStripSkin.ToolWindowGradient.DockStripGradient.EndColor = SystemColors.ControlLight;

@@ -17,18 +17,22 @@ namespace SuperCygwin.Forms.Presets
         protected string _name;
         [Browsable(false)]
         public PresetType Type;
-        
+
+        [Category("Process")]
         public string Name
         {
             get { return _name; }
             set { _name = value; }
         }
+
+        [Category("Process")]
         [EditorAttribute(typeof(System.Windows.Forms.Design.FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public string Path
         {
             get { return _path; }
             set { _path = value; }
         }
+        [Category("Process")]
         public string Args
         {
             get { return _args; }
@@ -133,11 +137,16 @@ namespace SuperCygwin.Forms.Presets
                 }
             }
         }
+        [Category("SSH Connection")]
         public string Hostname { get; set; }
+        [Category("SSH Connection")]
         public int Port { get; set; }
+        [Category("SSH Authentication")]
         public string Username { get; set; }
+        [Category("SSH Authentication")]
         [EditorAttribute(typeof(System.Windows.Forms.Design.FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public string PrivateKey { get; set; }
+        [Category("SSH Tunnels")]
         public string Forwards { get; set; }
 
         [JsonIgnore]
