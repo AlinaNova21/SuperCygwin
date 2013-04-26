@@ -122,8 +122,10 @@ namespace SuperCygwin
         private void Init(object Sender, EventArgs e)
         {
             menuStrip1.Visible = Program.dev;
-
+            CloseButtonVisible = true;
+            CloseButton = true;
             Resize += new EventHandler(ResizeEmbedded);
+            Activated += new EventHandler(ProcessContainer_Activated);
             Process wnd = process;
             wnd.WaitForInputIdle(3000);
             long val = 0;
@@ -142,6 +144,25 @@ namespace SuperCygwin
             this.DataBindings.Add("Text", wnd, "MainWindowTitle");
             File.AppendAllText("log.txt", string.Format("INIT: {0} {1}x{2} {3}x{4}\r\n", wnd.MainWindowTitle, 0, 0, Width, Height));
             Native.SetWindowPos(process.MainWindowHandle, IntPtr.Zero, 0, 0, panel1.Width, panel1.Height, (SWP.FRAMECHANGED + SWP.NOZORDER + SWP.NOACTIVATE));
+            System.Timers.Timer title = new System.Timers.Timer();
+            title.Elapsed += new System.Timers.ElapsedEventHandler(title_Elapsed);
+            title.Interval = 1000;
+            title.Start();
+        }
+
+        void ProcessContainer_Activated(object sender, EventArgs e)
+        {
+            SetFocus();
+        }
+
+        void title_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (IsDisposed)
+                ((System.Timers.Timer)sender).Enabled = false;
+            string title=Native.GetTitle(process.MainWindowHandle);
+            Invoke((Action<string>)((t) => {
+                Text = "_" + t;
+            }),title);
             
         }
 

@@ -85,7 +85,7 @@ namespace SuperCygwin.Forms
                         )
                     )
                 ).ToArray())
-                listBox1.Items.Add(i.ToString()+"  "+title(i));
+                listBox1.Items.Add(i.ToString()+"  "+GetTitle(i));
 
             listBox2.Items.Clear();
             foreach (ProcessThread t in Process.GetProcessById(
@@ -110,7 +110,7 @@ namespace SuperCygwin.Forms
             }
         }
 
-        string title(IntPtr hWnd)
+        string GetTitle(IntPtr hWnd)
         {
             StringBuilder message = new StringBuilder(1000);
             Native.SendMessage(hWnd, (uint)WM.GETTEXT, message.Capacity, message);

@@ -111,6 +111,13 @@ namespace SuperCygwin
         public static readonly IntPtr HWND_NOTOPMOST = new IntPtr(-2);
         public static readonly IntPtr HWND_TOP = new IntPtr(0);
         public static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
+
+        public static string GetTitle(IntPtr hWnd)
+        {
+            StringBuilder message = new StringBuilder(1000);
+            Native.SendMessage(hWnd, (uint)WM.GETTEXT, message.Capacity, message);
+            return message.ToString();
+        }
     }
    
     enum WindowLongFlags : int
