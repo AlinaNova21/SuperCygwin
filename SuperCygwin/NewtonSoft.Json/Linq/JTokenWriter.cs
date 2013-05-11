@@ -26,6 +26,7 @@
 using System;
 using System.Globalization;
 using Newtonsoft.Json.Utilities;
+#pragma warning disable 3021
 
 namespace Newtonsoft.Json.Linq
 {
@@ -185,7 +186,7 @@ namespace Newtonsoft.Json.Linq
     /// <param name="value">The <see cref="Object"/> value to write.</param>
     public override void WriteValue(object value)
     {
-#if !(NET20 || NET35 || SILVERLIGHT || PORTABLE || PORTABLE40)
+#if !(NET20 || NET35 || SILVERLIGHT || PORTABLE || PORTABLE40) && (NET45)
       if (value is BigInteger)
       {
         InternalWriteValue(JsonToken.Integer);

@@ -1256,8 +1256,10 @@ namespace Newtonsoft.Json
             }
             else
             {
-#if !(NET20 || NET35 || SILVERLIGHT || PORTABLE40 || PORTABLE)
+#if !(NET20 || NET35 || SILVERLIGHT || PORTABLE40 || PORTABLE) && (NET45)
+
               numberValue = BigInteger.Parse(number, CultureInfo.InvariantCulture);
+
 #else
               // todo - validate number was a valid integer to make sure overflow was the reason for failure
               throw JsonReaderException.Create(this, "JSON integer {0} is too large or small for an Int64.".FormatWith(CultureInfo.InvariantCulture, number));

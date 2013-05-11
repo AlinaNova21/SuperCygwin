@@ -33,6 +33,7 @@ using System.Text;
 using System.IO;
 using System.Xml;
 using Newtonsoft.Json.Utilities;
+#pragma warning disable 3021
 
 namespace Newtonsoft.Json
 {

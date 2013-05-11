@@ -13,6 +13,7 @@ using System.Drawing.Drawing2D;
 using SuperCygwin.Forms;
 using System.Threading;
 using System.Net;
+#pragma warning disable 168
 
 namespace SuperCygwin
 {

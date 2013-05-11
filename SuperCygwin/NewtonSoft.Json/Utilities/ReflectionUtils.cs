@@ -926,7 +926,7 @@ namespace Newtonsoft.Json.Utilities
           return 0m;
         case PrimitiveTypeCode.DateTime:
           return new DateTime();
-#if !(PORTABLE || PORTABLE40 || NET35 || NET20 || WINDOWS_PHONE || SILVERLIGHT)
+#if !(PORTABLE || PORTABLE40 || NET35 || NET20 || WINDOWS_PHONE || SILVERLIGHT) && (NET45)
         case PrimitiveTypeCode.BigInteger:
           return new BigInteger();
 #endif

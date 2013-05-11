@@ -40,7 +40,7 @@ using System.Text;
 #if !NET20 && (!SILVERLIGHT || WINDOWS_PHONE) && !PORTABLE40
 using System.Xml.Linq;
 #endif
-
+#pragma warning disable 3021
 namespace Newtonsoft.Json
 {
   /// <summary>

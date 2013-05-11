@@ -34,6 +34,8 @@ using System.Linq.Expressions;
 #if !(NET20 || NET35 || SILVERLIGHT || PORTABLE40 || PORTABLE)
 using System.Numerics;
 #endif
+#pragma warning disable 3021
+
 
 namespace Newtonsoft.Json.Linq
 {

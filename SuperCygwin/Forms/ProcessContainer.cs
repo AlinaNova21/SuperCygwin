@@ -10,7 +10,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
 using System.Net;
 using System.Threading;
-
+#pragma warning disable 168
 namespace SuperCygwin
 {
     public partial class ProcessContainer : WeifenLuo.WinFormsUI.Docking.DockContent
