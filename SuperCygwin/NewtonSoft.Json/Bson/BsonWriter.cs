@@ -34,7 +34,6 @@ using System.Text;
 using Newtonsoft.Json.Utilities;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
-#pragma warning disable 3021
 
 namespace Newtonsoft.Json.Bson
 {

@@ -43,7 +43,6 @@ using Newtonsoft.Json.Utilities.LinqBridge;
 #else
 using System.Linq;
 #endif
-#pragma warning disable 3021
 
 namespace Newtonsoft.Json.Linq
 {

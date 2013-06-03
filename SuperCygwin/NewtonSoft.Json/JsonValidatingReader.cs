@@ -732,7 +732,7 @@ namespace Newtonsoft.Json
       if (schema.DivisibleBy != null)
       {
         bool notDivisible;
-#if !(NET20 || NET35 || SILVERLIGHT || PORTABLE40 || PORTABLE) && (NET45)
+#if !(NET20 || NET35 || SILVERLIGHT || PORTABLE40 || PORTABLE)
         if (value is BigInteger)
         {
           // not that this will lose any decimal point on DivisibleBy
