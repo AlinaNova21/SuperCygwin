@@ -140,7 +140,7 @@ namespace Newtonsoft.Json.Serialization
     /// <value>The default members search flags.</value>
     public BindingFlags DefaultMembersSearchFlags { get; set; }
 #else
-    private BindingFlags DefaultMembersSearchFlags = BindingFlags.Instance | BindingFlags.Public;
+    private System.Reflection.BindingFlags DefaultMembersSearchFlags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public;
 #endif
 
     /// <summary>

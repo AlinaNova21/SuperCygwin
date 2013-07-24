@@ -26,9 +26,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-#if !(NET20 || NET35 || SILVERLIGHT || PORTABLE40 || PORTABLE)
-using System.Numerics;
-#endif
 using System.Text;
 using System.IO;
 using System.Xml;

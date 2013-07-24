@@ -25,9 +25,6 @@
 
 using System;
 using System.Collections.Generic;
-#if !(PORTABLE || PORTABLE40 || NET35 || NET20 || WINDOWS_PHONE || SILVERLIGHT)
-using System.Numerics;
-#endif
 using System.Reflection;
 using System.Collections;
 using System.Globalization;

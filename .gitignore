@@ -89,7 +89,7 @@ csx
 AppPackages/
 
 # Others
-#[Bb]in
+[Bb]in
 [Oo]bj
 sql
 TestResults
@@ -119,3 +119,5 @@ setup.log.full
 *.zip
 Release/SuperCygwin/*
 upload.bat.bak
+*.bak
+*.txt
