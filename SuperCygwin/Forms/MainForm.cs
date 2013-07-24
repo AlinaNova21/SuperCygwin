@@ -93,23 +93,6 @@ namespace SuperCygwin
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            //e.Graphics.CompositingMode = CompositingMode.SourceOver;
-            //e.Graphics.CompositingQuality = CompositingQuality.HighQuality;
-            if (Native.AeroEnabled())
-            {
-                e.Graphics.Clear(BackColor);
-            }
-            else
-            {
-                e.Graphics.Clear(Color.Red);//Color.FromArgb(0xC2, 0xD9, 0xF7));
-            }
-
-            e.Graphics.FillRectangle(new SolidBrush(BackColor),
-                    Rectangle.FromLTRB(
-                        margins.LeftWidth - 0,
-                        margins.TopHeight - 0,
-                        Width - margins.RightWidth - 0,
-                        Height - margins.BottomHeight - 0));
         }
 
         void dp_Paint(object sender, PaintEventArgs e)
