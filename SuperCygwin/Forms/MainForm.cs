@@ -113,6 +113,10 @@ namespace SuperCygwin
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
+            if (dp.ActiveContent.GetType() == typeof(ProcessContainer))
+            {
+                ((ProcessContainer)dp.ActiveContent).SetFocus();
+            }
         }
 
         protected override void OnPaint(PaintEventArgs e)

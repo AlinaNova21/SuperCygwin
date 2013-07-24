@@ -161,7 +161,7 @@ namespace SuperCygwin
                 ((System.Timers.Timer)sender).Enabled = false;
             string title=Native.GetTitle(process.MainWindowHandle);
             Invoke((Action<string>)((t) => {
-                Text = "_" + t;
+                Text = "" + t;
             }),title);
             
         }
@@ -170,6 +170,8 @@ namespace SuperCygwin
         {
             Native.SetFocus(process.MainWindowHandle);
             Native.SetWindowPos(process.MainWindowHandle, IntPtr.Zero, 0, 0, 0, 0, (SWP.NOZORDER + SWP.NOSIZE + SWP.NOMOVE + SWP.SHOWWINDOW));
+            Native.SetFocus(process.MainWindowHandle);
+            
         }
         
         void NewProcess(Process wnd)
@@ -204,7 +206,7 @@ namespace SuperCygwin
 
         void ProcessContainer_GotFocus(object sender, EventArgs e)
         {
-            SetFocus();
+            //SetFocus();
         }
         void ProcessContainer_Disposed(object sender, EventArgs e)
         {
@@ -246,6 +248,7 @@ namespace SuperCygwin
                 return;
             Native.SetWindowPos(process.MainWindowHandle, IntPtr.Zero, 0, 0, panel1.Width, panel1.Height, (SWP.FRAMECHANGED + SWP.NOZORDER + SWP.NOACTIVATE));
             File.AppendAllText("log.txt", string.Format("RESIZE: {0} {1}x{2} {3}x{4}\r\n", process.MainWindowTitle, 0, 0, Width, Height));
+            SetFocus();
         }
         private void button1_Click(object sender, EventArgs e)
         {

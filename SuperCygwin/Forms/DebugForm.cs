@@ -223,5 +223,10 @@ namespace SuperCygwin.Forms
             return;
         }
 
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
