@@ -102,11 +102,15 @@ namespace SuperCygwin.Forms
             foreach (string pr in checkedListBox1.CheckedItems)
             {
                 int id = int.Parse(pr.ToString().Split(' ')[1]);
-                Process p = Process.GetProcessById(id);
-                foreach (ProcessThread pt in p.Threads)
+                try
                 {
-                    Native.PostThreadMessage((uint)pt.Id, WM.QUIT, UIntPtr.Zero, IntPtr.Zero);
+                    Process p = Process.GetProcessById(id);
+                    foreach (ProcessThread pt in p.Threads)
+                    {
+                        Native.PostThreadMessage((uint)pt.Id, WM.QUIT, UIntPtr.Zero, IntPtr.Zero);
+                    }
                 }
+                catch (Exception ex) { }
             }
         }
 
@@ -194,6 +198,35 @@ namespace SuperCygwin.Forms
         }
 
 
-       
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+
+            if (m.Msg == (int)WM.NCHITTEST)
+            {
+                m.Result = (IntPtr)2;
+                return;
+            }
+
+            if (m.Msg == (int)WM.LBUTTONDOWN)
+            {
+                
+                //int index = HitTest();
+                //if (index == -1)
+                {
+                    //m.Result = (IntPtr)WeifenLuo.WinFormsUI.Docking.Win32.HitTest.HTCAPTION;
+                   // return;
+                }
+            }
+
+            //base.WndProc(ref m);
+            return;
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
