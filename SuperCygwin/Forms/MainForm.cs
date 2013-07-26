@@ -13,6 +13,7 @@ using System.Drawing.Drawing2D;
 using SuperCygwin.Forms;
 using System.Threading;
 using System.Net;
+using System.IO;
 
 namespace SuperCygwin
 {
@@ -77,6 +78,8 @@ namespace SuperCygwin
                 catch (Exception ex){}
             }));
             UpdateCheck.Start();
+            string path=@"games\minecraft.exe"
+            path=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),path);
             //Paint += new PaintEventHandler(MainForm_Paint);
             //Activated += new EventHandler(MainForm_Activated);
         }
@@ -84,7 +87,7 @@ namespace SuperCygwin
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
-            if (dp.ActiveContent.GetType() == typeof(ProcessContainer))
+            if (dp.ActiveContent != null && dp.ActiveContent.GetType() == typeof(ProcessContainer))
             {
                 ((ProcessContainer)dp.ActiveContent).SetFocus();
             }
