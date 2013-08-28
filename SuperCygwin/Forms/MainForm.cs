@@ -78,8 +78,6 @@ namespace SuperCygwin
                 catch (Exception ex){}
             }));
             UpdateCheck.Start();
-            string path=@"games\minecraft.exe"
-            path=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),path);
             //Paint += new PaintEventHandler(MainForm_Paint);
             //Activated += new EventHandler(MainForm_Activated);
         }
