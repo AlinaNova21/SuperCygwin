@@ -20,10 +20,10 @@ TODO: Convince someone to write a better readme! This is NOT my forte!
 
 Downloads:
 ==========
-Latest Stable http://ags131.co/supercygwin/SuperCygwin-latest.zip
+Latest Release http://down.ags131.us/supercygwin/SuperCygwin-release-latest.zip
 
-Dev Snapshot  http://ags131.co/supercygwin/SuperCygwin-snapshot.zip
+Dev Snapshot  http://down.ags131.us/supercygwin/SuperCygwin-dev-latest.zip
 
-Archive       http://ags131.co/supercygwin/
+Archive       http://down.ags131.us/supercygwin/
 
 
