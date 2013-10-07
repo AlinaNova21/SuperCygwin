@@ -33,20 +33,26 @@ namespace SuperCygwin
             //System.IO.File.WriteAllText("presets.json", JsonConvert.SerializeObject(Presets, Formatting.Indented));
             if (File.Exists("presets.json"))
             {
-                string presetFile = System.IO.File.ReadAllText("presets.json");
-                Object data = null;
-                data = JsonConvert.DeserializeObject<List<Preset>>(presetFile);
+                try
+                {
+                    string presetFile = System.IO.File.ReadAllText("presets.json");
+                    Object data = null;
+                    data = JsonConvert.DeserializeObject<List<Preset>>(presetFile);
 
-                foreach (Preset p in (List<Preset>)data)
-                    if (p.Args.StartsWith("/usr/bin/ssh"))
-                        Presets.Add(new SSHPreset(p));
-                    else
-                        Presets.Add(p);
+                    foreach (Preset p in (List<Preset>)data)
+                        if (p.Args.StartsWith("/usr/bin/ssh"))
+                            Presets.Add(new SSHPreset(p));
+                        else
+                            Presets.Add(p);
 
-                foreach (Preset p in Presets)
-                    AddProc(p);
-
-                
+                    foreach (Preset p in Presets)
+                        AddProc(p);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("There was a problem loading your presets, the preset file has been moved to presets.json.bak and will not be loaded.", "Error Loading Presets", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    File.Move("presets.json", "presets.json.bak");
+                }
             }
             em = EventManager.MainInstance;
             try

@@ -17,6 +17,7 @@ namespace SuperCygwin
     {
         static DockPanel dp;
         Process process;
+        IntPtr wndHnd = IntPtr.Zero;
 
         public static void RegisterNewProcessHandler(DockPanel dp, EventManager em)
         {
@@ -33,13 +34,16 @@ namespace SuperCygwin
                     if (!File.Exists(e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/", Program.Config.CygwinPath+@"bin\")) &&
                         !File.Exists(e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/", Program.Config.CygwinPath + @"bin\") + ".exe")) 
                     {
-                        if (!File.Exists("cygwin_setup.exe"))
+                        //if (!File.Exists("cygwin_setup.exe"))
                         {
                             WebClient wc = new WebClient();
-                            try{
-                                wc.DownloadFile("http://www.cygwin.com/setup.exe", "cygwin_setup.exe");
+                            try
+                            {
+                                if (File.Exists("cygwin_setup.exe"))
+                                    File.Delete("cygwin_setup.exe");
+                                wc.DownloadFile("http://www.cygwin.com/setup-x86.exe", "cygwin_setup.exe");
                             }catch(Exception ex){
-                                MessageBox.Show("Could not download cygwin setup. Please connect to the internet or install " + e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/", ""));
+                                MessageBox.Show(string.Format("Could not download cygwin setup. \nPlease connect to the internet or manually install {0}\n\n{1}", e.Process.Arguments.Split(' ')[0].Replace("/usr/bin/", ""), ex.Message));
                                 return;
                             }
                         }
@@ -60,12 +64,21 @@ namespace SuperCygwin
             pc.Show(dp);
             return pc;
         }
+
         public static ProcessContainer Create(DockPanel dp, Process p)
         {
             ProcessContainer pc = new ProcessContainer(p);
             pc.Show(dp);
             return pc;
         }
+
+        public static ProcessContainer Create(DockPanel dp, int pid, IntPtr wndH)
+        {
+            ProcessContainer pc = new ProcessContainer(pid, wndH);
+            pc.Show(dp);
+            return pc;
+        }
+
         public static ProcessContainer Create(DockPanel dp, ProcessStartInfo p)
         {
             ProcessContainer pc = new ProcessContainer(p);
@@ -77,6 +90,17 @@ namespace SuperCygwin
         {
             InitializeComponent();
         }
+
+        public IntPtr WindowHandle
+        {
+            get { return wndHnd; }
+        }
+
+        public int ProcessHandle
+        {
+            get { return process.Id; }
+        }
+
         public ProcessContainer(string Path, string args = "")
         {
             Process wnd = new Process();
@@ -102,6 +126,7 @@ namespace SuperCygwin
             DockHandler.TabPageContextMenu = cm;
             DockHandler.TabPageContextMenuStrip = cms;
         }
+
         public ProcessContainer(ProcessStartInfo psi)
         {
             Process wnd = new Process();
@@ -111,10 +136,21 @@ namespace SuperCygwin
             wnd.Start();
             NewProcess(wnd);
         }
+
         public ProcessContainer(Process p)
         {
             InitializeComponent();
             process = p;
+
+            wndHnd = p.MainWindowHandle;
+            Load += new EventHandler(Init);
+        }
+
+        public ProcessContainer(int pHnd, IntPtr wHnd)
+        {
+            InitializeComponent();
+            process = Process.GetProcessById(pHnd);
+            wndHnd = wHnd;
 
             Load += new EventHandler(Init);
         }
@@ -130,7 +166,9 @@ namespace SuperCygwin
             wnd.WaitForInputIdle(3000);
             long val = 0;
             IntPtr ptr = new IntPtr(val);
-            IntPtr Wnd = wnd.MainWindowHandle;
+            if (wndHnd == IntPtr.Zero)
+                wndHnd = wnd.MainWindowHandle;
+            IntPtr Wnd = wndHnd;
             Native.SetParent(Wnd, panel1.Handle);  
             Native.SetWindowLongPtr(Wnd, (int)WindowLongFlags.GWL_STYLE, (int)WS.CHILD);
             IntPtr localThread, remoteThread;
@@ -148,6 +186,9 @@ namespace SuperCygwin
             title.Elapsed += new System.Timers.ElapsedEventHandler(title_Elapsed);
             title.Interval = 1000;
             title.Start();
+            Config.Main.LastProcesses.Remove(process.Id);
+            Config.Main.LastProcesses.Add(process.Id, wndHnd);
+            Config.Main.Save();
         }
 
         void ProcessContainer_Activated(object sender, EventArgs e)
@@ -163,7 +204,6 @@ namespace SuperCygwin
             Invoke((Action<string>)((t) => {
                 Text = "" + t;
             }),title);
-            
         }
 
         public void SetFocus()
@@ -171,7 +211,6 @@ namespace SuperCygwin
             Native.SetFocus(process.MainWindowHandle);
             Native.SetWindowPos(process.MainWindowHandle, IntPtr.Zero, 0, 0, 0, 0, (SWP.NOZORDER + SWP.NOSIZE + SWP.NOMOVE + SWP.SHOWWINDOW));
             Native.SetFocus(process.MainWindowHandle);
-            
         }
         
         void NewProcess(Process wnd)
@@ -180,7 +219,7 @@ namespace SuperCygwin
 
             Native.ShowWindow(wnd.MainWindowHandle, WindowShowStyle.Hide);
             process = wnd;
-
+            wndHnd = wnd.MainWindowHandle;
             //Native.AttachThreadInput((uint)process.Threads[0].Id, (uint)System.Threading.Thread.CurrentThread.ManagedThreadId,true);
 
             Load += new EventHandler(Init);
@@ -201,6 +240,7 @@ namespace SuperCygwin
                     }));
             }
             catch (Exception ex) { }
+            Config.Main.LastProcesses.Remove(process.Id);
             //this.Hide();
         }
 
@@ -208,6 +248,7 @@ namespace SuperCygwin
         {
             //SetFocus();
         }
+
         void ProcessContainer_Disposed(object sender, EventArgs e)
         {
             if (!process.HasExited)
@@ -221,7 +262,9 @@ namespace SuperCygwin
                 }
                 catch (Exception ex) { }
             }
+            Config.Main.LastProcesses.Remove(process.Id);
         }
+
         void ProcessContainer_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (!process.HasExited)
@@ -241,6 +284,7 @@ namespace SuperCygwin
         {
 
         }
+
         private void ResizeEmbedded(object sender, EventArgs e)
         {
             //MessageBox.Show("You are in the Form.ResizeEnd event.");
@@ -250,12 +294,14 @@ namespace SuperCygwin
             File.AppendAllText("log.txt", string.Format("RESIZE: {0} {1}x{2} {3}x{4}\r\n", process.MainWindowTitle, 0, 0, Width, Height));
             SetFocus();
         }
+
         private void button1_Click(object sender, EventArgs e)
         {
             IntPtr mnu = Native.GetSystemMenu(process.MainWindowHandle, false);
             uint cmd = Native.TrackPopupMenuEx(mnu, 0x0100, MousePosition.X, MousePosition.Y, Handle, IntPtr.Zero);
             Native.PostMessage(Handle, WM.SYSCOMMAND, new IntPtr(cmd), IntPtr.Zero);
         }
+
         private void contextMenuToolStripMenuItem_Click(object sender, EventArgs e)
         {
             IntPtr mnu = Native.GetSystemMenu(process.MainWindowHandle, false);

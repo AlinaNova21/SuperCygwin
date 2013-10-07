@@ -12,6 +12,14 @@ namespace SuperCygwin
     {
         public static Config Main;
 
+        private bool _showTray = true;
+        [Browsable(true)]
+        public bool ShowTray
+        {
+            get { return _showTray; }
+            set { _showTray = value; }
+        }
+
         private bool _devBuilds = false;
         [Browsable(true)]
         public bool DevBuilds
@@ -82,6 +90,13 @@ namespace SuperCygwin
             {
                 _sshPath = value;
             }
+        }
+
+        private Dictionary<int, IntPtr> _lastProcesses = new Dictionary<int, IntPtr>();
+        [Browsable(false)]
+        public Dictionary<int, IntPtr> LastProcesses
+        {
+            get { return _lastProcesses; }
         }
 
         public Config()

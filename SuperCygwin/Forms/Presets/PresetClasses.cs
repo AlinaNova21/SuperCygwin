@@ -15,6 +15,7 @@ namespace SuperCygwin.Forms.Presets
         protected string _args;
         protected string _path;
         protected string _name;
+        
         [Browsable(false)]
         public PresetType Type;
 
@@ -32,6 +33,7 @@ namespace SuperCygwin.Forms.Presets
             get { return _path; }
             set { _path = value; }
         }
+        
         [Category("Process")]
         public string Args
         {
@@ -81,7 +83,7 @@ namespace SuperCygwin.Forms.Presets
     public class SSHPreset : Preset
     {
         Preset orig;
-        //[ReadOnly(true)]
+        [ReadOnly(true)]
         public new string Args
         {
             get
@@ -148,7 +150,7 @@ namespace SuperCygwin.Forms.Presets
         public string PrivateKey { get; set; }
         [Category("SSH Tunnels")]
         public string Forwards { get; set; }
-
+        
         [JsonIgnore]
         [Browsable(false)]
         public new ProcessStartInfo PSI

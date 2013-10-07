@@ -47,5 +47,22 @@ namespace SuperCygwin.Forms.Presets
         {
 
         }
+
+        private void sSHToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            preset = new SSHPreset(preset);
+            propertyGrid1.SelectedObject = preset;
+        }
+
+        private void genericToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Preset p = new Preset();
+            p.Args = preset.Args;
+            p.Name = preset.Name;
+            p.Path = preset.Path;
+            p.Type = preset.Type;
+            preset = p;
+            propertyGrid1.SelectedObject = preset;
+        }
     }
 }
