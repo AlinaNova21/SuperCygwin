@@ -62,12 +62,12 @@ namespace SuperCygwin
                 WebClient wc = new WebClient();
                 try
                 {
-                    string type=Program.Config.DevBuilds ? "snapshot" : "latest";
+                    string type=Program.Config.DevBuilds ? "dev" : "release";
                     string ver = wc.DownloadString(string.Format("http://down.ags131.us/supercygwin/{0}-version.txt", type));
                     if (new Version(ver).CompareTo(new Version(Application.ProductVersion)) > 0)
                         if (DialogResult.Yes == MessageBox.Show(string.Format("A new version is available: {0}Current: {1}{0}Latest: {2}{0}Do you want to update?", "\n", Application.ProductVersion, ver), "Update", MessageBoxButtons.YesNo))
                         {
-                            Process.Start(string.Format("http://down.ags131.ud/supercygwin/SuperCygwin-{0}.zip", ver));
+                            Process.Start(string.Format("http://down.ags131.us/supercygwin/SuperCygwin-{0}-latest.zip", type));
                             Application.Exit();
                         }
                 }
